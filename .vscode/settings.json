@@ -1,0 +1,12 @@
+{
+    "database.connections": [
+        {
+            "type": "postgres",
+            "name": "root@localhost (Postgre SQL)",
+            "host": "localhost:5432",
+            "username": "root",
+            "database": "adonis",
+            "password": "root"
+        }
+    ]
+}
