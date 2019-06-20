@@ -2,7 +2,8 @@
 
 /** @type {import('@adonisjs/framework/src/Env')} */
 const Env = use('Env')
-
+const Url = require('url-parse')
+const APP_KEY = new Url(Env.get('APP_KEY'))
 module.exports = {
 
   /*
