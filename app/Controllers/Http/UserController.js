@@ -1,20 +1,3 @@
-<<<<<<< HEAD
-"use strict"
-
-const User = use("App/Models/User")
-
-class UserController {
-  async create ({ request }) {
-    const data = request.only(["username", "email", "password"])
-
-    const user = await User.create(data)
-
-    return user
-  }
-}
-
-module.exports = UserController
-=======
 'use strict'
 
 const User = use("App/Models/User");
@@ -90,4 +73,3 @@ class UserController {
 }
 
 module.exports = UserController;
->>>>>>> 4694a81cce5e3a23d9ac89dd8a31ab2130f57b90
