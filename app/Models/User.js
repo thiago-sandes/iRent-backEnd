@@ -7,6 +7,14 @@ const Model = use('Model')
 const Hash = use('Hash')
 
 class User extends Model {
+<<<<<<< HEAD
+=======
+  //Esconde o retorno da senha na requisição
+  static get hidden() {
+    return ['password']
+  }
+
+>>>>>>> 4694a81cce5e3a23d9ac89dd8a31ab2130f57b90
   static boot () {
     super.boot()
 
