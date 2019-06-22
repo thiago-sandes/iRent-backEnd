@@ -3,7 +3,7 @@ const nodemailer = use('nodemailer')
 //const templateWelcome = path.join(__dirname, '.', 'template')
 //const EmailTemplate = require('email-templates').EmailTemplate
 //const welcome = new EmailTemplate(templateWelcome)
-const hbs = use('handlebars');
+const hbs = use('Handlebars');
 
 const transporte = nodemailer.createTransport({
   service: 'Gmail',
@@ -13,16 +13,10 @@ const transporte = nodemailer.createTransport({
   }
 });
 
-const template = hbs.compile('' + "<h2> Hello {{ name }} </h2>" +
-"<p>Welcome to the iRent, your rental search application!</p>" +
-"<p>your data:</p>" +
-`<ul>
-  <li>name: {{name}}</li>
-  <li>username: {{username}}</li>
-  <li>email: {{email}}</li>
-  <li>password: {{password}}</li>
-  <li>sex: {{sex}}</li>
-</ul>` + '');
+const template = hbs.compile('' + '<h2> Hello {{ name }} </h2>' +
+'<p>Welcome to the iRent, your rental search application!</p>' +
+'<p>your data:</p>' +
+'<ul><li>name: {{name}}</li><li>username: {{username}}</li><li>email: {{email}}</li><li>password: {{password}}</li><li>telephone: {{telephone}}</li><li>sex: {{sex}}</li></ul>' + '');
 
 const email = function(user) {
   const html = template(user);
@@ -31,7 +25,7 @@ const email = function(user) {
     from: "irentufs@gmail.com",
     to: user.email,
     subject: "Welcome to the iRent",
-    htm: html
+    html: html
   }, function(err){
     if(err)
       throw err;
