@@ -2,7 +2,7 @@
 
 const User = use("App/Models/User");
 
-//const emailWelcome = require("../../../emails/welcome")
+const emailWelcome = require("../../../emails/welcome")
 
 class UserController {
   async index ({ response, auth }) {
@@ -24,7 +24,7 @@ class UserController {
       const user = await User.create(data);
 
       
-      //emailWelcome(user);nds
+      emailWelcome(user);nds
 
       return response.status(201).send(user);
     } catch (error) {
