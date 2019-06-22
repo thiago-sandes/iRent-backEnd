@@ -2,6 +2,8 @@
 
 const User = use("App/Models/User");
 
+const emailWelcome = require("../../../emails/welcome")
+
 class UserController {
   async index ({ response, auth }) {
     try {
@@ -20,6 +22,8 @@ class UserController {
       const data = request.post();
 
       const user = await User.create(data);
+
+      emailWelcome(user);
 
       return response.status(201).send(user);
     } catch (error) {
