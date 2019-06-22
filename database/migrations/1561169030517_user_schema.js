@@ -7,9 +7,9 @@ class UserSchema extends Schema {
   up () {
     this.table('users', (table) => {
       // alter table
-      table.string('telephone', 30).notNullable()
-      table.string('name', 254).notNullable()
-      table.string('sex', 1).notNullable()
+      table.string('telephone', 30)
+      table.string('name', 254)
+      table.string('sex', 1)
     
     })
   }
