@@ -23,7 +23,8 @@ class UserController {
 
       const user = await User.create(data);
 
-      //emailWelcome(user);
+      
+      //emailWelcome(user);nds
 
       return response.status(201).send(user);
     } catch (error) {
