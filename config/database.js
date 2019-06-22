@@ -94,4 +94,12 @@ module.exports = {
        }
     },
     debug: Env.get('DB_DEBUG', false)
+<<<<<<< HEAD
   }
+=======
+
+  }
+
+
+
+>>>>>>> f308643499b818a73846ebe6fef79490d3722bde
