@@ -9,5 +9,5 @@ tmp
 
 # The development sqlite file
 database/development.sqlite
-config/database.js
+#config/database.js
 
