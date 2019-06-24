@@ -3,7 +3,7 @@ const nodemailer = use('nodemailer')
 //const templateWelcome = path.join(__dirname, '.', 'template')
 //const EmailTemplate = require('email-templates').EmailTemplate
 //const welcome = new EmailTemplate(templateWelcome)
-const hbs = use('Handlebars');
+const hbs = use('handlebars');
 
 const transporte = nodemailer.createTransport({
   service: 'Gmail',
