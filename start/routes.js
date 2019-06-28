@@ -9,6 +9,8 @@ Route.resource('users', 'UserController')
     [['update', 'show'], ['auth']]
   ]))
 
+Route.delete('/users/:id', 'UserController.destroy')
+
 Route.post('/sessions', 'SessionController.store')
 
 Route.get('/app', 'AppController.index').middleware(['auth'])
