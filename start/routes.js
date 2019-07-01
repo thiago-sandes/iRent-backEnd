@@ -4,7 +4,7 @@
 const Route = use('Route')
 
 Route.resource('users', 'UserController')
-  .only(['store', 'show', 'update'])
+  .only(['index','store', 'show', 'update'])
   .middleware(new Map([
     [['update', 'show'], ['auth']]
   ]))
