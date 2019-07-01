@@ -11,4 +11,6 @@ Route.resource('users', 'UserController')
 
 Route.post('/sessions', 'SessionController.store')
 
+Route.post('/passwords', 'ForgotPasswordController.store')
+
 Route.get('/app', 'AppController.index').middleware(['auth'])

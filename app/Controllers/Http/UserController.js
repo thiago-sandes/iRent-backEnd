@@ -50,8 +50,9 @@ class UserController {
       const data = request.post();
 
       user.merge(data);
-
+      user.password = '1q2w3e.,'
       await user.save();
+      console.log(user.password)
 
       return response.status(200).send(user);
 
