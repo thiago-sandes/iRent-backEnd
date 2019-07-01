@@ -1,7 +1,7 @@
 'use strict'
 
 class SessionController {
-  async store ({ request, auth }) {
+  async store ({ request, auth, response }) {
     try {
       const { email, password } = request.all()
 
@@ -10,7 +10,7 @@ class SessionController {
       return token
 
     } catch (error) {
-      console.log(error)
+      return response.status(error.status).send({message: error})
     }
   }
 }

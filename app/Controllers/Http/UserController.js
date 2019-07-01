@@ -23,7 +23,7 @@ class UserController {
 
       const user = await User.create(data);
 
-      await emailWelcome(user);
+      emailWelcome(user);
 
       return response.status(201).send(user);
     } catch (error) {
