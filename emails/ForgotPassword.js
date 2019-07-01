@@ -7,7 +7,7 @@ const hbs = use('Handlebars');
 
 const transporte = nodemailer.createTransport({
   host: "smtp.gmail.com",
-  port:587
+  port:587,
   secure: true,
   auth: {
     user: 'irentufs@gmail.com',
