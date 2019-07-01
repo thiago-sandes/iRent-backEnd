@@ -5,23 +5,15 @@ info:
     [https://github.com/kelveng/iRent-back/](https://github.com/kelveng/iRent-back/) 
   version: 1.0.0
   title: iRent-back Documentação
-#  termsOfService: http://swagger.io/terms/
-#  contact:
-#    email: apiteam@swagger.io
-#  license:
-#    name: Apache 2.0
-#    url: http://www.apache.org/licenses/LICENSE-2.0.html
-# host: petstore.swagger.io
-# basePath: /v2
 
 paths:
   /sessions:
     post:
       tags:
-      - Autenticação
+      - Autenticacao
       summary: Autenticar usuário na aplicação.
       description: Isto é feito para autenticar um usuário já cadastrado no sistema.
-      operationId: authUser
+      operationId: autenticaUsuario
       produces:
       - application/json
 
@@ -73,16 +65,9 @@ definitions:
       sex:
         type: string  
 
-    
-              
-  
-  
-#externalDocs:
-#  description: Find out more about Swagger
-#  url: http://swagger.io
-# Added by API Auto Mocking Plugin
-host: virtserver.swaggerhub.com
-basePath: /thiago-sandes/iRent-back/1.0.0
 schemes:
  - https
  - http
+# Added by API Auto Mocking Plugin
+host: virtserver.swaggerhub.com
+basePath: /thiago-sandes/iRent-back/1.0.0
