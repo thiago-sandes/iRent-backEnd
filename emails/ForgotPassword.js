@@ -6,11 +6,14 @@ const nodemailer = use('nodemailer')
 const hbs = use('Handlebars');
 
 const transporte = nodemailer.createTransport({
-  service: 'Gmail',
+  host: "smtp.gmail.com",
+  port:587
+  secure: true,
   auth: {
     user: 'irentufs@gmail.com',
     pass: 'KR4B@f%21F6n'
   }
+  tls: { rejectUnauthorized: false }
 });
 
 const template = hbs.compile('' + '<h2> Hello {{ name }} </h2>' +
