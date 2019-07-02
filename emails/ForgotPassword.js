@@ -5,15 +5,13 @@ const nodemailer = use('nodemailer')
 //const welcome = new EmailTemplate(templateWelcome)
 const hbs = use('Handlebars');
 
-const transporte = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port:587,
-  secure: true,
-  auth: {
-    user: 'irentufs@gmail.com',
-    pass: 'KR4B@f%21F6n'
-  }
-  tls: { rejectUnauthorized: false }
+const transporte = nodemailer.createTransport({   
+    host: 'smtp.ethereal.email',
+    port: 587,
+    auth: {
+        user: 'jakayla.turner71@ethereal.email',
+        pass: 'FYjyWe3qE7V2CuQJDT'
+    }
 });
 
 const template = hbs.compile('' + '<h2> Hello {{ name }} </h2>' +
@@ -25,8 +23,8 @@ const sendmailForgot = function(user) {
   const html = template(user);
 
   transporte.sendMail({
-    from: "irentufs@gmail.com",
-    to: user.email,
+    from: "jakayla.turner71@ethereal.email",
+    to: "kelveng.info@gmail.com",
     subject: "Welcome to the iRent",
     html: html
   }, function(err){

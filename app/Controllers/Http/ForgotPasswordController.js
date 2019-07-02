@@ -16,6 +16,7 @@ class ForgotPasswordController {
       user.password = 'mvl1q2w3e.,'
       
       await ForgotPassword(user);
+
       await user.save();
       
       
