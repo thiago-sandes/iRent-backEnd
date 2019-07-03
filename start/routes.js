@@ -1,15 +1,16 @@
 'use strict'
-
-
 const Route = use('Route')
 
-Route.resource('users', 'UserController')
-  .only(['index','store', 'show', 'update'])
-  .middleware(new Map([
-    [['update', 'show'], ['auth']]
-  ]))
+Route.group (() => {
+  Route.get('/users', 'UserController.index')
+  Route.post('/users', 'UserController.store')
+})
 
-Route.delete('/users/:id', 'UserController.destroy')
+Route.group (() => {
+  Route.get('/users/:username', 'UserController.show')
+  Route.delete('/users/:username', 'UserController.destroy')
+  Route.put('/users/:username', 'UserController.update')
+}).middleware(['auth'])
 
 Route.post('/sessions', 'SessionController.store')
 

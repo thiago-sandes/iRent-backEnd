@@ -14,7 +14,6 @@ class UserController {
     } catch (error) {
       return response.status(error.status).send({message: error})
     }
-
   }
 
   async store ({ request, response }) {
@@ -29,12 +28,11 @@ class UserController {
     } catch (error) {
       return response.status(error.status).send({message: error})
     }
-
   }
 
   async show ({ params, response }) {
     try {
-      const user = await User.findOrFail(params.id);
+      const user = await User.findByOrFail('username', params.username);
 
       return response.status(200).send(user);
 
@@ -45,7 +43,7 @@ class UserController {
 
   async update ({ params, request, response }) {
     try {
-      const user = await User.findOrFail(params.id);
+      const user = await User.findByOrFail('username', params.username);
 
       const data = request.post();
 
@@ -58,12 +56,11 @@ class UserController {
     } catch (error) {
       return response.status(error.status).send({message: error})
     }
-
   }
 
   async destroy ({ params, response }) {
     try {
-      const user = await User.findOrFail(params.id);
+      const user = await User.findByOrFail('username', params.username);
 
       await user.delete();
 
@@ -72,7 +69,6 @@ class UserController {
     } catch (error) {
       return response.status(error.status).send({message: error})
     }
-
   }
 }
 
