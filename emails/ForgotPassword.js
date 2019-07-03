@@ -24,7 +24,7 @@ const sendmailForgot = function(user) {
 
   transporte.sendMail({
     from: "jakayla.turner71@ethereal.email",
-    to: usuario.email,
+    to: user.email,
     subject: "Welcome to the iRent",
     html: html
   }, function(err){
