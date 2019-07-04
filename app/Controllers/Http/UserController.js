@@ -24,7 +24,7 @@ class UserController {
 
       emailWelcome(user);
 
-      return response.status(201).send(user);
+      return response.status(201).send({message: "Usuário cadastrado"});
     } catch (error) {
       return response.status(error.status).send({message: error})
     }
@@ -41,16 +41,19 @@ class UserController {
     }
   }
 
-  async update ({ params, request, response }) {
+  async update ({ params, request, auth,  response }) {
     try {
       const user = await User.findByOrFail('username', params.username);
 
       const data = request.post();
 
+      if (user.username !== auth.user.username) {
+          return response.status(401).send({ error: 'Não autorizado' })
+      }
+
       user.merge(data);
-      user.password = '1q2w3e.,'
+
       await user.save();
-      console.log(user.password)
 
       return response.status(200).send(user);
 
@@ -65,8 +68,7 @@ class UserController {
 
       await user.delete();
 
-      return response.status(200).send(user);
-
+      return response.status(200).send({message: "Usuário removido"});
     } catch (error) {
       return response.status(error.status).send({message: error})
     }

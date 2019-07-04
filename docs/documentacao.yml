@@ -1,0 +1,195 @@
+swagger: '2.0'
+info:
+  description: |
+    Documentação do Back-End da aplicaçao iRent, disponível em
+    [https://github.com/kelveng/iRent-back/](https://github.com/kelveng/iRent-back/)
+  version: 1.0.0
+  title: iRent-back Documentação
+
+paths:
+  /sessions:
+    post:
+      tags:
+      - Autenticacao
+      summary: Autenticar usuário na aplicação.
+      description: Isto é feito para autenticar um usuário já cadastrado no sistema.
+      operationId: autenticaUsuario
+      produces:
+      - application/json
+
+      parameters:
+      - in: body
+        name: json
+        description: São precisos os seguintes campos no arquivo JSON para fazer a autenticação.
+        required: true
+        schema:
+          type: object
+          properties:
+            email:
+              type: string
+            password:
+              type: string
+      responses:
+        200:
+          description: OK! Serão retornados os seguintes campos em formato json, caso o usuário tenha sido autenticado.
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+                description: Tipo do token. Estamos usando token do tipo "bearer".
+              token:
+                type: string
+                description: Sequência de caracteres que representa o token usado para autenticação.
+              refreshToken:
+                type: string
+                description: Token de atualização. Não é muito usado e geralmente vem com valor null.
+  /users:
+    get:
+      tags:
+        - users
+      summary: retorna todos os usuarios
+      operationId: index
+      description: rota na qual retorna dos os usuarios cadastrado no banco de dados
+      responses:
+        '200':
+          description: operação realizada com sucesso
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        '500':
+          description: Erro interno do servidor
+    post:
+      tags:
+        - users
+      summary: realiza cadastro
+      operationId: store
+      description: rota que retorna criar um usuario no banco de dados
+      parameters:
+        - name: username
+          in: body
+          description: username que será atualizado
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: Usuário cadastrado
+        '500':
+          description: Erro interno do servidor
+  '/users/:username':
+    get:
+      tags:
+        - users
+      summary: retorna um usuario
+      operationId: show
+      description: rota que retorna uma usuario
+      parameters:
+        - name: username
+          in: path
+          description: username do usuario que será atualizado
+          required: true
+          type: string
+      responses:
+        '200':
+          description: operação realizada com sucesso
+          schema:
+            $ref: '#/definitions/User'
+        '400':
+          description: requisição invalida
+        '404':
+          description: usuario não encontrado
+        '500':
+          description: Erro interno do servidor
+    put:
+      tags:
+        - users
+      summary: atualiza o usuario
+      operationId: update
+      description: rota que atualiza os dados do usuario
+      parameters:
+        - name: username
+          in: path
+          description: username do usuario que será atualizado
+          required: true
+          type: string
+        - name: username
+          in: body
+          description: username que será atualizado
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: operação realizada com sucesso
+          schema:
+            $ref: '#/definitions/User'
+        '400':
+          description: requisição invalida
+        '401':
+          description: Não autorizado
+        '404':
+          description: usuario não encontrado
+        '500':
+          description: Erro interno do servidor
+    delete:
+      tags:
+        - users
+      summary: remove o usuario
+      operationId: destroy
+      description: rota que remove os dados do usuario
+      parameters:
+        - name: username
+          in: path
+          description: username do usuario que será removido
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Usuário removido
+        '404':
+          description: usuario não encontrado
+        '500':
+          description: Erro interno do servido
+
+definitions:
+  User:
+    type: object
+    properties:
+      username:
+        type: string
+        description: nome do usuario no sistema
+        example: jmarcos
+      name:
+        type: string
+        description: nome do usuario
+        example: João Marcos
+      email:
+        type: string
+        description: email do usuario do sistema
+        example: jmarcos@gmail.com
+      password:
+        type: string
+        description: senha de login do usuario sistema
+        example: 12345678
+      telephone:
+        type: string
+        description: numero de telefone do usuario
+        example: 79999995555
+      sex:
+        type: string
+        description: sexo do usuario
+        example: M
+    required:
+      - username
+      - name
+      - email
+      - password
+      - telephone
+      - sex
+
+schemes:
+ - https
+ - http
+# Added by API Auto Mocking Plugin
+host: virtserver.swaggerhub.com
+basePath: /thiago-sandes/iRent-back/1.0.0

@@ -9,7 +9,7 @@ const Hash = use('Hash')
 class User extends Model {
   //Esconde o retorno da senha na requisição
   static get hidden() {
-    return ['password']
+    return ['password', 'created_at', 'updated_at']
   }
 
   static boot () {
