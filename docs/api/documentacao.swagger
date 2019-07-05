@@ -13,7 +13,7 @@ paths:
       - Autenticacao
       summary: Autenticar usuário na aplicação.
       description: Isto é feito para autenticar um usuário já cadastrado no sistema.
-      operationId: autenticaUsuario
+      operationId: store
       produces:
       - application/json
 
