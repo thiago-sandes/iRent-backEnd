@@ -17,3 +17,12 @@ Route.post('/sessions', 'SessionController.store')
 Route.post('/passwords', 'ForgotPasswordController.store')
 
 Route.get('/app', 'AppController.index').middleware(['auth'])
+
+Route.resource('oferta', 'OfertaController')
+  .apiOnly()
+  .middleware('auth')
+
+  Route.post('oferta/:id/images', 'ImageController.store')
+  .middleware('auth')
+
+  Route.get('images/:path', 'ImageController.show')
