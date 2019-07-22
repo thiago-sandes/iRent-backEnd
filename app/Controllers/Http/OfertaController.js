@@ -1,5 +1,7 @@
 'use strict'
 
+const Oferta = use('App/Models/Oferta')
+
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
@@ -17,19 +19,17 @@ class OfertaController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
-  }
+  async index ({ request, response, auth}) {
+    try {
+      const ofertas = await Oferta.all();
 
-  /**
-   * Render a form to be used for creating a new oferta.
-   * GET ofertas/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
+      //await ofertas.loadMany(['image', 'comentarioOferta', 'avaliacacaoOferta'])
+
+      return response.status(200).send(ofertas);
+
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
   }
 
   /**
@@ -41,6 +41,15 @@ class OfertaController {
    * @param {Response} ctx.response
    */
   async store ({ request, response }) {
+    try {
+      const data = request.post();
+
+      const oferta = await Oferta.create(data);
+
+      return response.status(201).send({message: "Oferta criada"});
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
   }
 
   /**
@@ -52,19 +61,15 @@ class OfertaController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
-  }
+  async show ({ params, request, response }) {
+     try {
+      const oferta = await Oferta.findOrFail(params.id);
 
-  /**
-   * Render a form to update an existing oferta.
-   * GET ofertas/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
+      return response.status(200).send(oferta);
+
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
   }
 
   /**
@@ -76,6 +81,24 @@ class OfertaController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
+    try {
+      const oferta = await Oferta.findOrFail(params.id);
+
+      const data = request.post();
+
+      //if (oferta.id !== auth.oferta.id) {
+         /// return response.status(401).send({ error: 'Não autorizado' })
+      //}
+
+      oferta.merge(data);
+
+      await oferta.save();
+
+      return response.status(200).send(oferta);
+
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
   }
 
   /**
@@ -87,6 +110,15 @@ class OfertaController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
+    try {
+      const oferta = await Oferta.findOrFail(params.id);
+
+      await oferta.delete();
+
+      return response.status(200).send({message: "Oferta removida"});
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
   }
 }
 

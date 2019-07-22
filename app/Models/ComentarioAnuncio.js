@@ -3,15 +3,15 @@
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Model = use('Model')
 
-class Anuncio extends Model {
+class ComentarioAnuncio extends Model {
 
   user () {
     return this.belongsTo('App/Models/User')
   }
 
-  avaliacaoAnuncio () {
-    return this.hasMany('App/Models/AvaliacaoAnuncio')
+  anuncio () {
+    return this.belongsTo('App/Models/Anuncio')
   }
 }
 
-module.exports = Anuncio
+module.exports = ComentarioAnuncio

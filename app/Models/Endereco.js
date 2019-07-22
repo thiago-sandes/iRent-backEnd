@@ -4,6 +4,10 @@
 const Model = use('Model')
 
 class Endereco extends Model {
+
+  oferta () {
+    return this.hasMany('App/Models/Oferta')
+  }
 }
 
 module.exports = Endereco
