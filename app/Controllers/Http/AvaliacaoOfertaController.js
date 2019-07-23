@@ -1,5 +1,8 @@
 'use strict'
 
+const AvaliacaoOferta = use('App/Models/AvaliacaoOferta')
+const Database = use('Database')
+
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
@@ -53,6 +56,14 @@ class AvaliacaoOfertaController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
+    try {
+      const media = await Database.from('avaliacao_ofertas').where('oferta_id',params.id).avg('nota')
+      
+      return response.status(200).send(media)
+
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
   }
 
   /**

@@ -23,6 +23,10 @@ Route.group (() => {
   Route.put('/ofertas/:id', 'OfertaController.update')
 })
 
+Route.group (() => {
+  Route.get('/avaliacaoOfertas/:id', 'AvaliacaoOfertaController.show')
+})
+
 Route.post('/sessions', 'SessionController.store')
 
 Route.post('/passwords', 'ForgotPasswordController.store')
