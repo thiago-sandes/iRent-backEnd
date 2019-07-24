@@ -24,7 +24,21 @@ Route.group (() => {
 })
 
 Route.group (() => {
+  Route.post('/avaliacaoOfertas', 'AvaliacaoOfertaController.store')
+})
+
+Route.group (() => {
   Route.get('/avaliacaoOfertas/:id', 'AvaliacaoOfertaController.show')
+  Route.put('/avaliacaoOfertas/:id', 'AvaliacaoOfertaController.update')
+})
+
+Route.group (() => {
+  Route.post('/avaliacaoAnuncios', 'AvaliacaoAnuncioController.store')
+})
+
+Route.group (() => {
+  Route.get('/avaliacaoAnuncios/:id', 'AvaliacaoAnuncioController.show')
+  Route.put('/avaliacaoAnuncios/:id', 'AvaliacaoAnuncioController.update')
 })
 
 Route.post('/sessions', 'SessionController.store')

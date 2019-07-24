@@ -23,8 +23,7 @@ class OfertaController {
     try {
       const ofertas = await Oferta.all();
 
-      //await ofertas.loadMany(['image', 'comentarioOferta', 'avaliacacaoOferta'])
-
+     
       return response.status(200).send(ofertas);
 
     } catch (error) {
