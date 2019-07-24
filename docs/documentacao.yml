@@ -10,17 +10,17 @@ paths:
   /sessions:
     post:
       tags:
-      - Autenticacao
-      summary: Autenticar usuário na aplicação.
-      description: Isto é feito para autenticar um usuário já cadastrado no sistema.
-      operationId: store
+      - sessions(autenticação)
+      summary: autenticar usuário na aplicação.
+      description: isto é feito para autenticar um usuário já cadastrado no sistema
+      operationId: autenticaUsuario
       produces:
       - application/json
 
       parameters:
       - in: body
         name: json
-        description: São precisos os seguintes campos no arquivo JSON para fazer a autenticação.
+        description: são precisos os seguintes campos no arquivo JSON para fazer a autenticação
         required: true
         schema:
           type: object
@@ -31,19 +31,19 @@ paths:
               type: string
       responses:
         200:
-          description: OK! Serão retornados os seguintes campos em formato json, caso o usuário tenha sido autenticado.
+          description: OK! Serão retornados os seguintes campos em formato json, caso o usuário tenha sido autenticado
           schema:
             type: object
             properties:
               type:
                 type: string
-                description: Tipo do token. Estamos usando token do tipo "bearer".
+                description: tipo do token. Estamos usando token do tipo "bearer"
               token:
                 type: string
-                description: Sequência de caracteres que representa o token usado para autenticação.
+                description: sequência de caracteres que representa o token usado para autenticação
               refreshToken:
                 type: string
-                description: Token de atualização. Não é muito usado e geralmente vem com valor null.
+                description: token de atualização. Não é muito usado e geralmente vem com valor null
   /users:
     get:
       tags:
@@ -150,7 +150,100 @@ paths:
           description: usuario não encontrado
         '500':
           description: Erro interno do servido
+  /avaliacaoOfertas:
+    post:
+      tags:
+      - avaliacaoOfertas
+      summary: criar nova avaliação de oferta
+      description: rota que adiciona uma nova avaliação a uma oferta
+      operationId: avaliacaoOferta
+      produces:
+      - application/json
 
+      parameters:
+      - in: body
+        name: json
+        description: são precisos os seguintes campos no arquivo JSON para fazer a avaliação de uma oferta
+        required: true
+        schema:
+          type: object
+          properties:
+            oferta_id:
+              type: integer
+              example: 1
+            user_id:
+              type: integer
+              example: 3
+            nota:
+              type: integer
+              example: 4
+      responses:
+        201:
+          description: OK! Serão retornados os seguintes campos em formato json, caso a avaliação tenha sido registrada
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: \"Avaliação realizada!" deverá ser o conteúdo do campo \"message" do JSON de resposta caso a avalição tenha sido realizada
+                example: Avaliação realizada!
+  '/avaliacaoOfertas/:oferta_id':  
+    get:
+      tags:
+        - avaliacaoOfertas
+      summary: retorna média de avaliações de uma dada oferta
+      operationId: mediaAvaliacaoOfertas
+      description: rota que retorna a média das avaliações de uma oferta através de seu id
+      parameters:
+        - name: oferta_id
+          in: path
+          description: id da oferta que se deseja obter média de avaliações
+          required: true
+          type: string
+      responses:
+        200:
+          description: média retornada com sucesso
+          schema:
+            type: object
+            properties:
+              avg:
+                type: number
+                description: \"avg:" 4.0000000000000000 é um exemplo de retorno válido, com média de avaliações igual a 4.
+                example: "4.0000000000000000"
+  
+  '/avaliacaoOfertas/:id':       
+    put:
+      tags:
+        - avaliacaoOfertas
+      summary: atualiza a avaliação de uma oferta
+      operationId: atualizaAvaliacaoOferta
+      description: rota que atualiza uma avaliação pelo seu id
+      parameters:
+        - name: id
+          in: path
+          description: id da avaliação
+          required: true
+          type: integer
+          
+        
+        - name: json
+          in: body
+          description: é preciso enviar o seguinte campo no arquivo JSON para fazer a atualização de uma avaliação
+          required: true
+          schema:
+            type: object
+            properties:
+              nota:
+                type: integer
+                example: 4
+        
+      responses:
+        '200':
+          description: operação realizada com sucesso
+          schema:
+            $ref: '#/definitions/AvaliacaoOferta'
+        
+    
 definitions:
   User:
     type: object
@@ -186,10 +279,40 @@ definitions:
       - password
       - telephone
       - sex
+  
+  AvaliacaoOferta:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: id da avaliação
+        example: 21
+      oferta_id:
+        type: integer
+        description: id da oferta cuja avaliação pertence 
+        example: 12
+      user_id:
+        type: integer
+        description: id do usuário cuja avaliação pertence 
+        example: 44
+      nota:
+        type: integer
+        description: nota da avaliação(de 0 à 5 no formato estrela)
+        example: 4
+      created_at:
+        type: object
+        description: \"timestamp:" informe de quando a avaliação foi criada
+        example: "2019-06-17 21:17:36-03"
+      updated_at:
+        type: object
+        description: \"timestamp:" informe de quando a avaliação foi alterada
+        example: "2019-06-25 21:00:09-03"
+    required:
+      - id
+      - oferta_id
+      - user_id
+      - nota
 
 schemes:
  - https
  - http
-# Added by API Auto Mocking Plugin
-host: virtserver.swaggerhub.com
-basePath: /thiago-sandes/iRent-back/1.0.0
