@@ -25,10 +25,12 @@ paths:
         schema:
           type: object
           properties:
-            email:
+            username:
               type: string
+              example: thiago_sandes
             password:
               type: string
+              example: gtx409sd
       responses:
         200:
           description: OK! Serão retornados os seguintes campos em formato json, caso o usuário tenha sido autenticado
@@ -37,12 +39,15 @@ paths:
             properties:
               type:
                 type: string
+                example: bearer
                 description: tipo do token. Estamos usando token do tipo "bearer"
               token:
                 type: string
+                example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjExLCJpYXQiOjE1NjQwNDgxOTV9.Zy_uiNCBE1Ebc4g5mX5AV9yF-ALz4T648M6PIJZSBiU
                 description: sequência de caracteres que representa o token usado para autenticação
               refreshToken:
                 type: string
+                example: null
                 description: token de atualização. Não é muito usado e geralmente vem com valor null
   /users:
     get:
