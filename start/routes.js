@@ -24,11 +24,13 @@ Route.group (() => {
 })
 
 Route.group (() => {
+  Route.get('/avaliacaoOfertas', 'AvaliacaoOfertaController.index')
   Route.post('/avaliacaoOfertas', 'AvaliacaoOfertaController.store')
 })
 
 Route.group (() => {
   Route.get('/avaliacaoOfertas/:id', 'AvaliacaoOfertaController.show')
+  Route.delete('/avaliacaoOfertas/:id', 'AvaliacaoOfertaController.destroy')
   Route.put('/avaliacaoOfertas/:id', 'AvaliacaoOfertaController.update')
 })
 

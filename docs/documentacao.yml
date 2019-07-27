@@ -161,7 +161,7 @@ paths:
       - avaliacaoOfertas
       summary: criar nova avaliação de oferta
       description: rota que adiciona uma nova avaliação a uma oferta
-      operationId: avaliacaoOferta
+      operationId: createAvaliacaoOfertas
       produces:
       - application/json
 
@@ -184,14 +184,36 @@ paths:
               example: 4
       responses:
         201:
-          description: OK! Serão retornados os seguintes campos em formato json, caso a avaliação tenha sido registrada
+          description: OK! Serão retornados os seguintes campos em formato JSON, caso a avaliação tenha sido registrada
           schema:
             type: object
             properties:
               message:
                 type: string
-                description: \"Avaliação realizada!" deverá ser o conteúdo do campo \"message" do JSON de resposta caso a avalição tenha sido realizada
+                description: Avaliação realizada!  esse deverá ser o conteúdo do campo "message" do JSON de resposta caso a avaliação tenha sido realizada
                 example: Avaliação realizada!
+                
+        409:
+          description: Conflict! Já existe uma avaliação para esse usuário em determinada oferta. Se quiser atualizar, use o método para atualizar em vez desse
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: Avaliação já realizada! esse deverá ser o conteúdo do campo "message" do JSON de resposta caso a avaliação não tenha sido realizada
+                example: Avaliação já realizada!
+  
+    get:
+      tags:
+        - avaliacaoOfertas
+      summary: retorna todas as avaliações de ofertas existentes
+      operationId: getAllAvaliacaoOferta
+      description: rota que retorna todas as avaliações de ofertas armazenadas
+      responses:
+        200:
+          description: OK! Retornou todas as avaliações em formato JSON
+          schema:
+            $ref: '#/definitions/AvaliacaoOferta'
   '/avaliacaoOfertas/:oferta_id':  
     get:
       tags:
@@ -213,8 +235,36 @@ paths:
             properties:
               avg:
                 type: number
-                description: \"avg:" 4.0000000000000000 é um exemplo de retorno válido, com média de avaliações igual a 4.
-                example: "4.0000000000000000"
+                description:  4.0000000000000000 é um exemplo de retorno válido para o campo "avg", com média de avaliações igual a 4
+                example: "avg: 4.0000000000000000"
+    
+    delete:
+      tags:
+        - avaliacaoOfertas
+      summary: deleta avaliação pelo seu id
+      operationId: deleteAvaliacaoOferta
+      description: rota que deleta uma avaliação de oferta pelo id da avaliacaoOferta
+      responses:
+        200:
+          description: OK! Avaliação deletada com sucesso
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: Caso a avaliação seja deletada, deve retornar "Avaliação de oferta removida"
+                example: "message: Avaliação de oferta removida"
+        
+        404:
+          description: NOT FOUND! Avaliação não encontrada
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: Campo deve vir vazio caso avaliacaoOferta não seja encontrada
+                example: "message: {}"
+        
   
   '/avaliacaoOfertas/:id':       
     put:
@@ -314,7 +364,7 @@ definitions:
         example: "2019-06-25 21:00:09-03"
     required:
       - id
-      - oferta_id
+      - oferta_ida
       - user_id
       - nota
 

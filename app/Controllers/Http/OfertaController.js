@@ -21,10 +21,10 @@ class OfertaController {
    */
   async index ({ request, response, auth}) {
     try {
-      const ofertas = await Oferta.all();
+      const ofertas = await Oferta.all()
 
      
-      return response.status(200).send(ofertas);
+      return response.status(200).send(ofertas)
 
     } catch (error) {
       return response.status(error.status).send({message: error})
@@ -41,11 +41,11 @@ class OfertaController {
    */
   async store ({ request, response }) {
     try {
-      const data = request.post();
+      const data = request.post()
 
-      const oferta = await Oferta.create(data);
+      const oferta = await Oferta.create(data)
 
-      return response.status(201).send({message: "Oferta criada"});
+      return response.status(201).send({message: "Oferta criada"})
     } catch (error) {
       return response.status(error.status).send({message: error})
     }
@@ -62,9 +62,9 @@ class OfertaController {
    */
   async show ({ params, request, response }) {
      try {
-      const oferta = await Oferta.findOrFail(params.id);
+      const oferta = await Oferta.findOrFail(params.id)
 
-      return response.status(200).send(oferta);
+      return response.status(200).send(oferta)
 
     } catch (error) {
       return response.status(error.status).send({message: error})
@@ -81,19 +81,19 @@ class OfertaController {
    */
   async update ({ params, request, response }) {
     try {
-      const oferta = await Oferta.findOrFail(params.id);
+      const oferta = await Oferta.findOrFail(params.id)
 
-      const data = request.post();
+      const data = request.post()
 
       //if (oferta.id !== auth.oferta.id) {
          /// return response.status(401).send({ error: 'Não autorizado' })
       //}
 
-      oferta.merge(data);
+      oferta.merge(data)
 
-      await oferta.save();
+      await oferta.save()
 
-      return response.status(200).send(oferta);
+      return response.status(200).send(oferta)
 
     } catch (error) {
       return response.status(error.status).send({message: error})
@@ -110,11 +110,11 @@ class OfertaController {
    */
   async destroy ({ params, request, response }) {
     try {
-      const oferta = await Oferta.findOrFail(params.id);
+      const oferta = await Oferta.findOrFail(params.id)
 
-      await oferta.delete();
+      await oferta.delete()
 
-      return response.status(200).send({message: "Oferta removida"});
+      return response.status(200).send({message: "Oferta removida"})
     } catch (error) {
       return response.status(error.status).send({message: error})
     }
