@@ -23,7 +23,6 @@ class OfertaController {
     try {
       const ofertas = await Oferta.all();
 
-     
       return response.status(200).send(ofertas);
 
     } catch (error) {
@@ -63,6 +62,8 @@ class OfertaController {
   async show ({ params, request, response }) {
      try {
       const oferta = await Oferta.findOrFail(params.id);
+
+      await oferta.loadMany(['image', 'avaliacaoOferta', 'comentarioOferta'])
 
       return response.status(200).send(oferta);
 

@@ -24,6 +24,11 @@ class Oferta extends Model {
   comentarioOferta () {
     return this.hasMany('App/Models/ComentarioOferta')
   }
+
+  image () {
+    return this.hasMany('App/Models/Image')
+  }
+
 }
 
 module.exports = Oferta
