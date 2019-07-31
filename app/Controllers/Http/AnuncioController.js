@@ -4,6 +4,8 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
+const Anuncio = use('App/Models/Anuncio')
+
 /**
  * Resourceful controller for interacting with anuncios
  */
@@ -18,18 +20,16 @@ class AnuncioController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
-  }
+     try {
+      const anuncios = await Anuncio.query()
+            .with('user')
+            .with('avaliacaoAnuncio')
+            .fetch()
 
-  /**
-   * Render a form to be used for creating a new anuncio.
-   * GET anuncios/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
+      return response.status(200).send(anuncios);
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
   }
 
   /**
@@ -41,6 +41,15 @@ class AnuncioController {
    * @param {Response} ctx.response
    */
   async store ({ request, response }) {
+    try {
+      const data = request.post();
+
+      const anuncio = await Anuncio.create(data);
+
+      return response.status(201).send({message: "Anuncio criado"});
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
   }
 
   /**
@@ -53,18 +62,15 @@ class AnuncioController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
-  }
+    try {
+      const anuncio = await Anuncio.findOrFail(params.id);
+      await anuncio.loadMany(['user', 'avaliacaoAnuncio'])
 
-  /**
-   * Render a form to update an existing anuncio.
-   * GET anuncios/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
+      return response.status(200).send(anuncio);
+
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
   }
 
   /**
@@ -76,6 +82,24 @@ class AnuncioController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
+     try {
+      const anuncio = await Anuncio.findOrFail(params.id);
+
+      const data = request.post();
+
+      //if (anuncio.id !== auth.anuncio.id) {
+         /// return response.status(401).send({ error: 'Não autorizado' })
+      //}
+
+      anuncio.merge(data);
+
+      await anuncio.save();
+
+      return response.status(200).send(anuncio);
+
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
   }
 
   /**
@@ -87,6 +111,15 @@ class AnuncioController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
+    try {
+      const anuncio = await Anuncio.findOrFail(params.id);
+
+      await anuncio.delete();
+
+      return response.status(200).send({message: "Anuncio removido"});
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
   }
 }
 

@@ -22,6 +22,7 @@ class OfertaSchema extends Schema {
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
       table.string('titulo', 100).notNullable()
+      table.string('telefone', 100).notNullable()
       table.string('descricao', 1024).notNullable()
       table.decimal('preco').notNullable()
       table.string('restricao', 1024)

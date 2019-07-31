@@ -45,11 +45,11 @@ class AvaliacaoAnuncioController {
    */
   async store ({ request, response }) {
     try {
-      const data = request.post();
+      const data = request.post()
 
-      const avaliacaoAnuncio = await AvaliacaoAnuncio.create(data);
+      const avaliacaoAnuncio = await AvaliacaoAnuncio.create(data)
 
-      return response.status(201).send({message: "Avaliação realizada!"});
+      return response.status(201).send({message: "Avaliação realizada!"})
     } catch (error) {
       return response.status(error.status).send({message: error})
     }
@@ -97,19 +97,19 @@ class AvaliacaoAnuncioController {
    */
   async update ({ params, request, response }) {
     try {
-      const avaliacaoAnuncio = await AvaliacaoAnuncio.findOrFail(params.id);
+      const avaliacaoAnuncio = await AvaliacaoAnuncio.findOrFail(params.id)
 
-      const data = request.post();
+      const data = request.post()
 
       //if (avaliacaoAnuncio.id !== auth.avaliacaoAnuncio.id) {
          /// return response.status(401).send({ error: 'Não autorizado' })
       //}
 
-      avaliacaoAnuncio.merge(data);
+      avaliacaoAnuncio.merge(data)
 
-      await avaliacaoAnuncio.save();
+      await avaliacaoAnuncio.save()
 
-      return response.status(200).send(avaliacaoAnuncio);
+      return response.status(200).send(avaliacaoAnuncio)
 
     } catch (error) {
       return response.status(error.status).send({message: error})

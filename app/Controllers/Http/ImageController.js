@@ -17,7 +17,8 @@ class ImageController {
     size: '2mb'
   })
 
-  await images.moveAll(Helpers.tmpPath('uploads'), file => ({
+  
+  await images.moveAll('uploads', file => ({
     name: `${Date.now()}-${file.clientName}`
   }))
 
@@ -32,8 +33,18 @@ class ImageController {
   )
   }
 
+  async showImages ({ params, request, response }) {
+
+    const oferta = await Oferta.findOrFail(params.id);
+    const images = await oferta.images().fetch()
+
+    return response.status(200).send(images);
+
+}
+
   async show ({ params, response }) {
-    return response.download(Helpers.tmpPath(`uploads/${params.path}`))
+
+    return response.download(`uploads/${params.path}`)
   }
 }
 

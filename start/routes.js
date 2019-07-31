@@ -7,21 +7,29 @@ Route.group (() => {
 })
 
 Route.group (() => {
-  Route.get('/users/:username', 'UserController.show')
+
+  Route.get('/users/username/:username', 'UserController.show')
+  Route.get('/users/id/:id', 'UserController.getById')
   Route.delete('/users/:username', 'UserController.destroy')
   Route.put('/users/:username', 'UserController.update')
-}).middleware(['auth'])
+})//.middleware('auth')
+
+Route.post('/sessions', 'SessionController.store')
+
+Route.post('/passwords', 'ForgotPasswordController.store')
+
+Route.get('/app', 'AppController.index').middleware(['auth'])
 
 Route.group (() => {
-  Route.get('/ofertas', 'OfertaController.index')
-  Route.post('/ofertas', 'OfertaController.store')
-})
+  Route.get('/oferta', 'OfertaController.index')
+  Route.post('/oferta', 'OfertaController.store')
+})//.middleware('auth')
 
 Route.group (() => {
-  Route.get('/ofertas/:id', 'OfertaController.show')
-  Route.delete('/ofertas/:id', 'OfertaController.destroy')
-  Route.put('/ofertas/:id', 'OfertaController.update')
-})
+  Route.get('/oferta/:id', 'OfertaController.show')
+  Route.delete('/oferta/:id', 'OfertaController.destroy')
+  Route.put('/oferta/:id', 'OfertaController.update')
+})//.middleware('auth')
 
 Route.group (() => {
   Route.post('/avaliacaoOfertas', 'AvaliacaoOfertaController.store')
@@ -32,22 +40,19 @@ Route.group (() => {
   Route.put('/avaliacaoOfertas/:id', 'AvaliacaoOfertaController.update')
 })
 
-Route.group (() => {
-  Route.post('/avaliacaoAnuncios', 'AvaliacaoAnuncioController.store')
-})
+  Route.get('/oferta/:id/images', 'ImageController.showImages')
+  Route.post('oferta/:id/images', 'ImageController.store')
+  //.middleware('auth')
+
+  Route.group (() => {
+  Route.get('/anuncio', 'AnuncioController.index')
+  Route.post('/anuncio', 'AnuncioController.store')
+})//.middleware('auth')
 
 Route.group (() => {
-  Route.get('/avaliacaoAnuncios/:id', 'AvaliacaoAnuncioController.show')
-  Route.put('/avaliacaoAnuncios/:id', 'AvaliacaoAnuncioController.update')
-})
+  Route.get('/anuncio/:id', 'AnuncioController.show')
+  Route.delete('/anuncio/:id', 'AnuncioController.destroy')
+  Route.put('/anuncio/:id', 'AnuncioController.update')
+})//.middleware('auth')
 
-Route.post('/sessions', 'SessionController.store')
-
-Route.post('/passwords', 'ForgotPasswordController.store')
-
-Route.get('/app', 'AppController.index').middleware(['auth'])
-
-Route.post('oferta/:id/images', 'ImageController.store')
-.middleware('auth')
-
-Route.get('images/:path', 'ImageController.show')
+  Route.get('/images/:path', 'ImageController.show')

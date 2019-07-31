@@ -21,10 +21,12 @@ class OfertaController {
    */
   async index ({ request, response, auth}) {
     try {
-      const ofertas = await Oferta.all();
+      const ofertas = await Oferta.query()
+            .with('image')
+            .with('comentarioOferta')
+            .fetch()
 
       return response.status(200).send(ofertas);
-
     } catch (error) {
       return response.status(error.status).send({message: error})
     }
@@ -60,10 +62,9 @@ class OfertaController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response }) {
-     try {
+    try {
       const oferta = await Oferta.findOrFail(params.id);
-
-      await oferta.loadMany(['image', 'avaliacaoOferta', 'comentarioOferta'])
+      await oferta.loadMany(['image', 'comentarioOferta'])
 
       return response.status(200).send(oferta);
 
