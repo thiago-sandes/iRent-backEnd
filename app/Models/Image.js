@@ -12,6 +12,10 @@ class Image extends Model {
   oferta () {
     return this.belongsTo('App/Models/Oferta')
   }
+
+  image (){
+    return this.belongsTo('App/Models/Image')
+  }
 }
 
 module.exports = Image

@@ -64,6 +64,10 @@ class User extends Model {
   comentarioAnuncio () {
     return this.hasMany('App/Models/ComentarioAnuncio')
   }
+
+  image () {
+    return this.belongsTo('App/Models/Image')
+  }
 }
 
 module.exports = User

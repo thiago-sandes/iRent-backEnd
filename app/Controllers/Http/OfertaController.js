@@ -32,6 +32,19 @@ class OfertaController {
     }
   }
 
+  async getFilter ({ request, response, auth}) {
+    try {
+      const ofertas = await Oferta.query()
+            .with('image')
+            .with('comentarioOferta')
+            .fetch()
+
+      return response.status(200).send(ofertas);
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
+  }
+
   /**
    * Create/save a new oferta.
    * POST ofertas

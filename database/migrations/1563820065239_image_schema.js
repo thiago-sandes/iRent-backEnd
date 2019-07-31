@@ -14,6 +14,13 @@ class ImageSchema extends Schema {
         .inTable('ofertas')
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
+        table
+        .integer('user_id')
+        .unsigned()
+        .references('id')
+        .inTable('users')
+        .onUpdate('CASCADE')
+        .onDelete('CASCADE')
       table.string('path').notNullable()
       table.timestamps()
     })

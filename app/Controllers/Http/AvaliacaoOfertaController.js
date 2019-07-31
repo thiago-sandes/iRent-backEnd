@@ -23,13 +23,34 @@ class AvaliacaoOfertaController {
   async index ({ request, response, view }) {
     try {
       const avaliacaoOferta = await AvaliacaoOferta.all()
-     
+
       return response.status(200).send(avaliacaoOferta)
 
     } catch (error) {
       return response.status(error.status).send({message: error})
     }
   }
+
+  /**
+   * Show a avaliacaooferta.
+   * GET avaliacaooferta
+   *
+   * @param {object} ctx
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
+   * @param {View} ctx.view
+   */
+  async getAvaliacaoOferta({  params, request, response }) {
+    try {
+      const avaliacaoOferta = await Database.from('avaliacao_ofertas').where('oferta_id',params.oferta_id).where('user_id',params.user_id)
+
+      return response.status(200).send(avaliacaoOferta)
+
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
+  }
+
 
   /**
    * Render a form to be used for creating a new avaliacaooferta.
@@ -62,7 +83,7 @@ class AvaliacaoOfertaController {
          return response.status(201).send({message: "Avaliação realizada!"})
       }else{
         return response.status(409).send(({message: "Avaliação já realizada!"}))
-      }  
+      }
     } catch (error) {
       return response.status(error.status).send({message: error})
     }
@@ -80,7 +101,7 @@ class AvaliacaoOfertaController {
   async show ({ params, request, response, view }) {
     try {
       const media = await Database.from('avaliacao_ofertas').where('oferta_id',params.id).avg('nota')
-      
+
       return response.status(200).send(media)
 
     } catch (error) {
