@@ -23,7 +23,6 @@ class OfertaController {
     try {
       const ofertas = await Oferta.query()
             .with('image')
-            .with('comentarioOferta')
             .fetch()
 
       return response.status(200).send(ofertas);
