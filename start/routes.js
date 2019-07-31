@@ -32,7 +32,7 @@ Route.group (() => {
 })//.middleware('auth')
 
 Route.group (() => {
-  Route.post('/avaliacaoOfertas', 'AvaliacaoOfertaController.index')
+  Route.get('/avaliacaoOfertas', 'AvaliacaoOfertaController.index')
   Route.post('/avaliacaoOfertas', 'AvaliacaoOfertaController.store')
 })
 
