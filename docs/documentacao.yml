@@ -2,7 +2,7 @@ swagger: '2.0'
 info:
   description: |
     Documentação do Back-End da aplicaçao iRent, disponível em
-    [https://github.com/kelveng/iRent-back/](https://github.com/kelveng/iRent-back/)
+    [https://rivanildojr.github.io/documentacaoiRent/)
   version: 1.0.0
   title: iRent-back Documentação
 
@@ -212,6 +212,18 @@ paths:
       responses:
         200:
           description: OK! Retornou todas as avaliações em formato JSON
+          schema:
+            $ref: '#/definitions/AvaliacaoOferta'
+  '/avaliacaoOfertas/:user_id/:oferta_id':  
+    get:
+      tags:
+        - avaliacaoOfertas
+      summary: retorna uma avaliação específica
+      operationId: getAvaliacaoOferta
+      description: rota que retorna uma avaliação de oferta, se existir, dados o id do usuário e o id da oferta
+      responses:
+        200:
+          description: OK! Retornou a avaliação em formato JSON. Caso não exista a avaliação, o retorno será um JSON vazio { [] } !
           schema:
             $ref: '#/definitions/AvaliacaoOferta'
   '/avaliacaoOfertas/:oferta_id':  
