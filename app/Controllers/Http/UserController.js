@@ -64,9 +64,9 @@ class UserController {
 
       const data = request.post()
 
-      if (user.username !== auth.user.username) {
-          return response.status(401).send({ error: 'Não autorizado' })
-      }
+      //if (user.username !== auth.user.username) {
+         // return response.status(401).send({ error: 'Não autorizado' })
+     // }
 
       user.merge(data)
 
