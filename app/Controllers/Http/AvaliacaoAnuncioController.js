@@ -97,7 +97,7 @@ class AvaliacaoAnuncioController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async getAvaliacaoOAnuncio({  params, request, response }) {
+  async getAvaliacaoAnuncio({  params, request, response }) {
     try {
       const avaliacaoAnuncio = await Database.from('avaliacao_anuncios').where('anuncio_id',params.id).where('user_id',params.user_id)
 

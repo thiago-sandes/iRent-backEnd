@@ -50,7 +50,7 @@ Route.group (() => {
 
 Route.group (() => {
   Route.get('/avaliacaoAnuncios/:id', 'AvaliacaoAnuncioController.show')
-  Route.get('/avaliacaoAnuncios/:user_id/:anuncio_id', 'AvaliacaoAnuncioController.getAvaliacaAnuncio')
+  Route.get('/avaliacaoAnuncios/:user_id/:anuncio_id', 'AvaliacaoAnuncioController.getAvaliacaoAnuncio')
   Route.delete('/avaliacaoAnuncios/:id', 'AvaliacaoAnuncioController.destroy')
   Route.put('/avaliacaoAnuncios/:id', 'AvaliacaoAnuncioController.update')
 })

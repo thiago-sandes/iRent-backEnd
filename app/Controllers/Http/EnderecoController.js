@@ -61,7 +61,7 @@ class EnderecoController {
          await Endereco.create(data)
          return response.status(201).send({message: "Endereço cadastrado!"})
       }else{
-        return response.status(409).send(({message: "Endereço já realizada!"}))
+        return response.status(409).send(({message: "Endereço já cadastrado!"}))
       }
     } catch (error) {
       return response.status(error.status).send({message: error})
