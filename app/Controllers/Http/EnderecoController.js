@@ -1,5 +1,8 @@
 'use strict'
 
+const Endereco = use('App/Models/Endereco')
+const Database = use('Database')
+
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
@@ -18,6 +21,14 @@ class EnderecoController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
+    try {
+      const enderecos = await Endereco.all()
+
+      return response.status(200).send(enderecos)
+
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
   }
 
   /**
@@ -41,6 +52,20 @@ class EnderecoController {
    * @param {Response} ctx.response
    */
   async store ({ request, response }) {
+    try {
+      const data = request.post()
+
+      const endereco = await Database.from('enderecos').where('oferta_id',data.oferta_id)
+
+      if(!Object.keys(endereco).length){
+         await Endereco.create(data)
+         return response.status(201).send({message: "Endereço cadastrado!"})
+      }else{
+        return response.status(409).send(({message: "Endereço já realizada!"}))
+      }
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
   }
 
   /**
@@ -53,7 +78,36 @@ class EnderecoController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
+    try {
+      const endereco = await Database.from('enderecos').where('endereco_id',params.id)
+
+      return response.status(200).send(endereco)
+
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
   }
+
+  /**
+   * Show a endereco by oferta.
+   * GET endereco by oferta
+   *
+   * @param {object} ctx
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
+   * @param {View} ctx.view
+   */
+  async getEnderecoOferta({  params, request, response }) {
+    try {
+      const endereco = await Database.from('enderecos').where('oferta_id',params.oferta_id)
+
+      return response.status(200).send(endereco)
+
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
+  }
+
 
   /**
    * Render a form to update an existing endereco.
@@ -76,6 +130,24 @@ class EnderecoController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
+    try {
+      const endereco = await Endereco.findOrFail(params.id)
+
+      const data = request.post()
+
+      //if (endereco.id !== auth.endereco.id) {
+         /// return response.status(401).send({ error: 'Não autorizado' })
+      //}
+
+      endereco.merge(data)
+
+      await endereco.save()
+
+      return response.status(200).send(endereco)
+
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
   }
 
   /**
@@ -87,6 +159,15 @@ class EnderecoController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
+    try {
+      const endereco = await Endereco.findOrFail(params.id)
+
+      await endereco.delete()
+
+      return response.status(200).send({message: "Endereço de oferta removido"})
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
   }
 }
 

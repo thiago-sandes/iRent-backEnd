@@ -43,6 +43,31 @@ Route.group (() => {
   Route.put('/avaliacaoOfertas/:id', 'AvaliacaoOfertaController.update')
 })
 
+Route.group (() => {
+  Route.get('/avaliacaoAnuncios', 'AvaliacaoAnuncioController.index')
+  Route.post('/avaliacaoAnuncios', 'AvaliacaoAnuncioController.store')
+})
+
+Route.group (() => {
+  Route.get('/avaliacaoAnuncios/:id', 'AvaliacaoAnuncioController.show')
+  Route.get('/avaliacaoAnuncios/:user_id/:anuncio_id', 'AvaliacaoAnuncioController.getAvaliacaAnuncio')
+  Route.delete('/avaliacaoAnuncios/:id', 'AvaliacaoAnuncioController.destroy')
+  Route.put('/avaliacaoAnuncios/:id', 'AvaliacaoAnuncioController.update')
+})
+
+Route.group (() => {
+  Route.get('/endereco', 'EnderecoController.index')
+  Route.post('/endereco', 'EnderecoController.store')
+})
+
+Route.group (() => {
+  Route.get('/endereco/:id', 'EnderecoController.show')
+  Route.get('/endereco/:oferta_id', 'EnderecoController.getEnderecoOferta')
+  Route.delete('/endereco/:id', 'EnderecoController.destroy')
+  Route.put('/endereco/:id', 'EnderecoController.update')
+})
+
+
   Route.get('/oferta/:id/images', 'ImageController.showImages')
   Route.post('oferta/:id/images', 'ImageController.store')
   //.middleware('auth')

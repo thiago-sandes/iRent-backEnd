@@ -21,6 +21,14 @@ class AvaliacaoAnuncioController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
+    try {
+      const avaliacaoAnuncio = await avaliacaoAnuncio.all()
+
+      return response.status(200).send(avaliacaoAnuncio)
+
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
   }
 
   /**
@@ -47,9 +55,14 @@ class AvaliacaoAnuncioController {
     try {
       const data = request.post()
 
-      const avaliacaoAnuncio = await AvaliacaoAnuncio.create(data)
+      const avaliacaoAnuncio = await Database.from('avaliacao_anuncios').where('anuncio_id',data.anuncio_id).where('user_id',data.user_id)
 
-      return response.status(201).send({message: "Avaliação realizada!"})
+      if(!Object.keys(avaliacaoAnuncio).length){
+         await avaliacaoAnuncio.create(data)
+         return response.status(201).send({message: "Avaliação realizada!"})
+      }else{
+        return response.status(409).send(({message: "Avaliação já realizada!"}))
+      }
     } catch (error) {
       return response.status(error.status).send({message: error})
     }
@@ -74,6 +87,28 @@ class AvaliacaoAnuncioController {
       return response.status(error.status).send({message: error})
     }
   }
+
+  /**
+   * Show avaliacaoanuncio.
+   * GET avaliacaoanuncio
+   *
+   * @param {object} ctx
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
+   * @param {View} ctx.view
+   */
+  async getAvaliacaoOAnuncio({  params, request, response }) {
+    try {
+      const avaliacaoAnuncio = await Database.from('avaliacao_anuncios').where('anuncio_id',params.id).where('user_id',params.user_id)
+
+      return response.status(200).send(avaliacaoAnuncio)
+
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
+  }
+
+
 
   /**
    * Render a form to update an existing avaliacaoanuncio.
@@ -125,6 +160,15 @@ class AvaliacaoAnuncioController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
+    try {
+      const avaliacaoAnuncio = await AvaliacaoAnuncio.findOrFail(params.id)
+
+      await avaliacaoAnuncio.delete()
+
+      return response.status(200).send({message: "Avaliação de anúncio removida"})
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
   }
 }
 
