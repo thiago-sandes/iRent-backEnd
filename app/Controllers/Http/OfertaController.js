@@ -33,12 +33,15 @@ class OfertaController {
 
   async getFilter ({ request, response, auth}) {
     try {
-      const ofertas = await Oferta.query()
-            .with('image')
-            .with('comentarioOferta')
-            .fetch()
+      const termoPesquisa = request.post()
+      const termoValidos = Object.keys(termoPesquisa).filter(element => {
+        if (termoPesquisa[element] !== null){
+          return element
+        }
+      })
+      console.log("elemento", termoValidos)
 
-      return response.status(200).send(ofertas);
+      return response.status(200).send(termoPesquisa);
     } catch (error) {
       return response.status(error.status).send({message: error})
     }
