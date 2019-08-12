@@ -49,6 +49,10 @@ paths:
                 type: string
                 example: null
                 description: token de atualização. Não é muito usado e geralmente vem com valor null
+              user_id:
+                type: integer
+                example: 11
+                description: id do usuário autenticado
   /users:
     get:
       tags:
@@ -231,7 +235,7 @@ paths:
       tags:
         - avaliacaoOfertas
       summary: retorna média de avaliações de uma dada oferta
-      operationId: mediaAvaliacaoOfertas
+      operationId: mediaAvaliacaoOferta
       description: rota que retorna a média das avaliações de uma oferta através de seu id
       parameters:
         - name: oferta_id
@@ -248,7 +252,7 @@ paths:
               avg:
                 type: number
                 description:  4.0000000000000000 é um exemplo de retorno válido para o campo "avg", com média de avaliações igual a 4
-                example: "avg: 4.0000000000000000"
+                example: "4.0000000000000000"
     
     delete:
       tags:
@@ -265,7 +269,7 @@ paths:
               message:
                 type: string
                 description: Caso a avaliação seja deletada, deve retornar "Avaliação de oferta removida"
-                example: "message: Avaliação de oferta removida"
+                example: "Avaliação de oferta removida"
         
         404:
           description: NOT FOUND! Avaliação não encontrada
@@ -275,7 +279,7 @@ paths:
               message:
                 type: string
                 description: Campo deve vir vazio caso avaliacaoOferta não seja encontrada
-                example: "message: {}"
+                example: "{}"
         
   
   '/avaliacaoOfertas/:id':       
@@ -309,7 +313,333 @@ paths:
           description: operação realizada com sucesso
           schema:
             $ref: '#/definitions/AvaliacaoOferta'
+            
+            
+            
+            
+            
+            
+  /avaliacaoAnuncios:
+    post:
+      tags:
+      - avaliacaoAnuncios
+      summary: criar nova avaliação de anúncio
+      description: rota que adiciona uma nova avaliação a um anúncio
+      operationId: createAvaliacaoAnuncios
+      produces:
+      - application/json
+
+      parameters:
+      - in: body
+        name: json
+        description: são precisos os seguintes campos no arquivo JSON para fazer a avaliação de um anúncio
+        required: true
+        schema:
+          type: object
+          properties:
+            anuncio_id:
+              type: integer
+              example: 1
+            user_id:
+              type: integer
+              example: 3
+            nota:
+              type: integer
+              example: 4
+      responses:
+        201:
+          description: OK! Serão retornados os seguintes campos em formato JSON, caso a avaliação tenha sido registrada
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: Avaliação realizada!  esse deverá ser o conteúdo do campo "message" do JSON de resposta caso a avaliação tenha sido realizada
+                example: Avaliação realizada!
+                
+        409:
+          description: Conflict! Já existe uma avaliação para esse usuário em determinado anúncio. Se quiser atualizar, use o método para atualizar em vez desse
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: Avaliação já realizada! esse deverá ser o conteúdo do campo "message" do JSON de resposta caso a avaliação não tenha sido realizada
+                example: Avaliação já realizada!
+  
+    get:
+      tags:
+        - avaliacaoAnuncios
+      summary: retorna todas as avaliações de anúncios existentes
+      operationId: getAllAvaliacaoAnuncio
+      description: rota que retorna todas as avaliações de anúncios armazenadas
+      responses:
+        200:
+          description: OK! Retornou todas as avaliações em formato JSON
+          schema:
+            $ref: '#/definitions/AvaliacaoAnuncio'
+  '/avaliacaoAnuncios/:user_id/:anuncio_id':  
+    get:
+      tags:
+        - avaliacaoAnuncios
+      summary: retorna uma avaliação específica
+      operationId: getAvaliacaoAnuncio
+      description: rota que retorna uma avaliação de anúncio, se existir, dados o id do usuário e o id do anúncio
+      responses:
+        200:
+          description: OK! Retornou a avaliação em formato JSON. Caso não exista a avaliação, o retorno será um JSON vazio { [] } !
+          schema:
+            $ref: '#/definitions/AvaliacaoAnuncio'
+  '/avaliacaoAnuncios/:anuncio_id':  
+    get:
+      tags:
+        - avaliacaoAnuncios
+      summary: retorna média de avaliações de um dado anúncio
+      operationId: mediaAvaliacaoAnuncio
+      description: rota que retorna a média das avaliações de um anúncio através de seu id
+      parameters:
+        - name: anuncio_id
+          in: path
+          description: id do anúncio que se deseja obter média de avaliações
+          required: true
+          type: string
+      responses:
+        200:
+          description: média retornada com sucesso
+          schema:
+            type: object
+            properties:
+              avg:
+                type: number
+                description:  4.0000000000000000 é um exemplo de retorno válido para o campo "avg", com média de avaliações igual a 4
+                example: " 4.0000000000000000"
+    
+    delete:
+      tags:
+        - avaliacaoAnuncios
+      summary: deleta avaliação pelo seu id
+      operationId: deleteAvaliacaoAnuncio
+      description: rota que deleta uma avaliação de anúncio pelo id da avaliacaoAnuncio
+      responses:
+        200:
+          description: OK! Avaliação deletada com sucesso
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: Caso a avaliação seja deletada, deve retornar "Avaliação de anúncio removida"
+                example: "Avaliação de anúncio removida"
         
+        404:
+          description: NOT FOUND! Avaliação não encontrada
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: Campo deve vir vazio caso avaliacaoAnuncio não seja encontrada
+                example: "{}"
+        
+  
+  '/avaliacaoAnuncios/:id':       
+    put:
+      tags:
+        - avaliacaoAnuncios
+      summary: atualiza a avaliação de um anúncio
+      operationId: atualizaAvaliacaoAnuncio
+      description: rota que atualiza uma avaliação pelo seu id
+      parameters:
+        - name: id
+          in: path
+          description: id da avaliação
+          required: true
+          type: integer
+          
+        
+        - name: json
+          in: body
+          description: é preciso enviar o seguinte campo no arquivo JSON para fazer a atualização de uma avaliação
+          required: true
+          schema:
+            type: object
+            properties:
+              nota:
+                type: integer
+                example: 4
+        
+      responses:
+        '200':
+          description: operação realizada com sucesso
+          schema:
+            $ref: '#/definitions/AvaliacaoAnuncio'
+  
+  
+  /endereco:
+    post:
+      tags:
+      - enderecoOferta
+      summary: criar novo endereço de oferta
+      description: rota que adiciona um novo endereço a uma oferta
+      operationId: createEndereco
+      produces:
+      - application/json
+
+      parameters:
+      - in: body
+        name: json
+        description: são precisos os seguintes campos no arquivo JSON para adicionar endereço a uma oferta
+        required: true
+        schema:
+          type: object
+          properties:
+            oferta_id:
+              type: integer
+              description: id da oferta cujo endereço pertence 
+              example: 12
+            latitude:
+              type: decimal
+              description: latitude do endereço
+              example: 41.40338
+            longitude:
+              type: decimal
+              description: longitude do endereço
+              example: 2.17403
+            tipoEndereco:
+              type: string
+              description: tipo do endereço(casa, apartamento, avenida, rua...)
+              example: "casa"
+            descricao:
+              type: string
+              description: descrição do endereço
+              example: "Rua Grujim, 356 - Rosa Elze, SE"
+      responses:
+        201:
+          description: OK! Serão retornados os seguintes campos em formato JSON, caso o endereço tenha sido registrado
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: Endereço cadastrado!  esse deverá ser o conteúdo do campo "message" do JSON de resposta caso o endereço tenha sido cadastrado
+                example: Endereço cadastrado!
+                
+        409:
+          description: Conflict! Já existe um endereço para essa oferta. Se quiser atualizar, use o método para atualizar em vez desse
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: Endereço já cadastrado! esse deverá ser o conteúdo do campo "message" do JSON de resposta caso o endereço já tenha sido cadastrado para determinada oferta
+                example: Endereço já cadastrado!
+  
+    get:
+      tags:
+        - enderecoOferta
+      summary: retorna todos os endereços de ofertas existentes
+      operationId: getAllEnderecoOferta
+      description: rota que retorna todos os endereços de ofertas cadastrados
+      responses:
+        200:
+          description: OK! Retornou todos os endereços em formato JSON
+          schema:
+            $ref: '#/definitions/Endereco'
+  '/endereco/:oferta_id':  
+    get:
+      tags:
+        - enderecoOferta
+      summary: retorna um endereço pelo id da oferta
+      operationId: getEnderecoOferta
+      description: rota que retorna um endereço de oferta, se existir, dado o id da oferta
+      responses:
+        200:
+          description: OK! Retornou o endereço da oferta em formato JSON. Caso não exista o endereço, o retorno será um JSON vazio { [] } !
+          schema:
+            $ref: '#/definitions/Endereco'
+  '/endereco/:id':  
+    get:
+      tags:
+        - enderecoOferta
+      summary: retorna endereço pelo seu id
+      operationId: getEndereco
+      description: rota que retorna o endereço de uma oferta através do id do endereço
+      responses:
+        200:
+          description: OK! Retornou a avaliação em formato JSON. Caso não exista a avaliação, o retorno será um JSON vazio { [] } !
+          schema:
+            $ref: '#/definitions/Endereco'
+    
+    delete:
+      tags:
+        - enderecoOferta
+      summary: deleta endereço pelo seu id
+      operationId: deleteEnderecoOferta
+      description: rota que deleta um endereço de oferta pelo id do endereço
+      responses:
+        200:
+          description: OK! Endereço deletado com sucesso
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: Caso o endereço seja deletado, deve retornar "Endereço de oferta removido"
+                example: "Endereço de oferta removido"
+        
+        404:
+          description: NOT FOUND! Endereço não encontrado
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: Campo deve vir vazio caso o endereço não seja encontrado
+                example: "{}"
+        
+    put:
+      tags:
+        - enderecoOferta
+      summary: atualiza o endereco de uma oferta
+      operationId: atualizaEnderecoOferta
+      description: rota que atualiza um endereço pelo seu id
+      parameters:
+        - name: id
+          in: path
+          description: id do endereço
+          required: true
+          type: integer
+          
+        
+        - name: json
+          in: body
+          description: é preciso enviar o seguinte campo no arquivo JSON para fazer a atualização de um endereço
+          required: true
+          schema:
+            type: object
+            properties:
+              latitude:
+                type: number
+                description: latitude do endereço
+                example: 41.40338
+              longitude:
+                type: number
+                description: longitude do endereço
+                example: 2.17403
+              tipoEndereco:
+                type: string
+                description: tipo do endereço(casa, apartamento, avenida, rua...)
+                example: "casa"
+              descricao:
+                type: string
+                description: descrição do endereço
+                example: "Rua Grujim, 356 - Rosa Elze, SE"
+        
+      responses:
+        '200':
+          description: operação realizada com sucesso
+          schema:
+            $ref: '#/definitions/Endereco'
     
 definitions:
   User:
@@ -376,10 +706,84 @@ definitions:
         example: "2019-06-25 21:00:09-03"
     required:
       - id
-      - oferta_ida
+      - oferta_id
       - user_id
       - nota
-
+      
+  AvaliacaoAnuncio:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: id da avaliação
+        example: 21
+      anuncio_id:
+        type: integer
+        description: id do anúncio cuja avaliação pertence 
+        example: 12
+      user_id:
+        type: integer
+        description: id do usuário cuja avaliação pertence 
+        example: 44
+      nota:
+        type: integer
+        description: nota da avaliação(de 0 à 5 no formato estrela)
+        example: 4
+      created_at:
+        type: object
+        description: \"timestamp:" informe de quando a avaliação foi criada
+        example: "2019-06-17 21:17:36-03"
+      updated_at:
+        type: object
+        description: \"timestamp:" informe de quando a avaliação foi alterada
+        example: "2019-06-25 21:00:09-03"
+    required:
+      - id
+      - anuncio_id
+      - user_id
+      - nota
+      
+  Endereco:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: id do endereço
+        example: 21
+      oferta_id:
+        type: integer
+        description: id da oferta cujo endereço pertence 
+        example: 12
+      latitude:
+        type: number
+        description: latitude do endereço
+        example: 41.40338
+      longitude:
+        type: number
+        description: longitude do endereço
+        example: 2.17403
+      tipoEndereco:
+        type: string
+        description: tipo do endereço(casa, apartamento, avenida, rua...)
+        example: "casa"
+      descricao:
+        type: string
+        description: descrição do endereço
+        example: "Rua Grujim, 356 - Rosa Elze, SE"
+      created_at:
+        type: object
+        description: \"timestamp:" informe de quando a avaliação foi criada
+        example: "2019-06-17 21:17:36-03"
+      updated_at:
+        type: object
+        description: \"timestamp:" informe de quando a avaliação foi alterada
+        example: "2019-06-25 21:00:09-03"
+    required:
+      - id
+      - oferta_id
+      - latitude
+      - longitude
+      
 schemes:
  - https
  - http

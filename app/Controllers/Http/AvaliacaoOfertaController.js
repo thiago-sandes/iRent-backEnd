@@ -79,7 +79,7 @@ class AvaliacaoOfertaController {
       const avaliacaoOferta = await Database.from('avaliacao_ofertas').where('oferta_id',data.oferta_id).where('user_id',data.user_id)
 
       if(!Object.keys(avaliacaoOferta).length){
-         avaliacaoOferta = await AvaliacaoOferta.create(data)
+         await AvaliacaoOferta.create(data)
          return response.status(201).send({message: "Avaliação realizada!"})
       }else{
         return response.status(409).send(({message: "Avaliação já realizada!"}))
