@@ -31,6 +31,21 @@ class OfertaController {
     }
   }
 
+   async getIdOfertas ({ request, response, auth, params }) {
+    try {
+
+      const ofertas = await Oferta.query()
+            .where('user_id',params.id)
+            .with('image')
+            .fetch();
+
+      return response.status(200).send(ofertas)
+
+    } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
+  }
+
   async getFilter ({ request, response, auth}) {
     try {
       const termoPesquisa = request.post()
