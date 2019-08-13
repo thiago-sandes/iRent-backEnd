@@ -21,9 +21,7 @@ class AnuncioController {
    */
   async index ({ request, response, view }) {
      try {
-      const anuncios = await Anuncio.query()
-            .with('user')
-            .fetch()
+      const anuncios = await Anuncio.query().fetch()
 
       return response.status(200).send(anuncios);
     } catch (error) {
