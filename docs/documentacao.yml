@@ -86,19 +86,43 @@ paths:
           description: Usuário cadastrado
         '500':
           description: Erro interno do servidor
-  '/users/:username':
+  '/users/username/:username':
+    get:
+        tags:
+          - users
+        summary: retorna um usuario
+        operationId: show
+        description: rota que retorna um usuario
+        parameters:
+          - name: username
+            in: path
+            description: username do usuario que será atualizado
+            required: true
+            type: string
+        responses:
+          '200':
+            description: operação realizada com sucesso
+            schema:
+              $ref: '#/definitions/User'
+          '400':
+            description: requisição invalida
+          '404':
+            description: usuario não encontrado
+          '500':
+            description: Erro interno do servidor
+  '/users/id/:id':
     get:
       tags:
         - users
       summary: retorna um usuario
-      operationId: show
-      description: rota que retorna uma usuario
+      operationId: showID
+      description: rota que retorna um usuario
       parameters:
-        - name: username
+        - name: id
           in: path
-          description: username do usuario que será atualizado
+          description: id do usuario que será atualizado
           required: true
-          type: string
+          type: integer
       responses:
         '200':
           description: operação realizada com sucesso
@@ -110,6 +134,7 @@ paths:
           description: usuario não encontrado
         '500':
           description: Erro interno do servidor
+  '/users/:username':
     put:
       tags:
         - users
@@ -122,9 +147,9 @@ paths:
           description: username do usuario que será atualizado
           required: true
           type: string
-        - name: username
-          in: body
-          description: username que será atualizado
+        - in: body
+          name: json
+          description: quaisquer dos seguintes campos no arquivo JSON pode ser usado para ser atualizados
           schema:
             $ref: '#/definitions/User'
       responses:
@@ -137,7 +162,7 @@ paths:
         '401':
           description: Não autorizado
         '404':
-          description: usuario não encontrado
+          description: Usuario não encontrado
         '500':
           description: Erro interno do servidor
     delete:
@@ -159,6 +184,278 @@ paths:
           description: usuario não encontrado
         '500':
           description: Erro interno do servido
+
+  /oferta:
+    get:
+      tags:
+        - oferta
+      summary: retorna todos as ofertas
+      operationId: indexOferta
+      description: rota na qual retorna dos as ofertas cadastrada no banco de dados
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: operação realizada com sucesso
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Oferta'
+        '500':
+          description: Erro interno do servidor
+    post:
+      tags:
+        - oferta
+      summary: realiza cadastro da oferta
+      operationId: storeOferta
+      description: rota que criar uma oferta no banco de dados
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: json
+          description: são precisos os seguintes campos no arquivo JSON para criar a oferta
+          schema:
+            $ref: '#/definitions/Oferta'
+      responses:
+        '200':
+          description: Oferta cadastrado
+        '500':
+          description: Erro interno do servidor
+  '/oferta/:id':
+    get:
+      tags:
+        - oferta
+      summary: retorna uma oferta
+      operationId: showOferta
+      description: rota que retorna uma oferta com o id passado
+      parameters:
+        - name: id
+          in: path
+          description: id da oferta que será atualizada
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: operação realizada com sucesso
+          schema:
+            $ref: '#/definitions/Oferta'
+        '400':
+          description: requisição invalida
+        '404':
+          description: oferta não encontrada
+        '500':
+          description: Erro interno do servidor
+    put:
+      tags:
+        - oferta
+      summary: atualiza a oferta
+      operationId: updateOferta
+      description: rota que atualiza os dados da oferta
+      parameters:
+        - name: id
+          in: path
+          description: id da oferta que será atualizada
+          required: true
+          type: integer
+        - in: body
+          name: json
+          description: quaisquer dos seguintes campos no arquivo JSON pode ser usado para ser atualizados
+          schema:
+            $ref: '#/definitions/Oferta'
+      responses:
+        '200':
+          description: operação realizada com sucesso
+          schema:
+            $ref: '#/definitions/Oferta'
+        '400':
+          description: requisição invalida
+        '401':
+          description: Não autorizado
+        '404':
+          description: oferta não encontrada
+        '500':
+          description: Erro interno do servidor
+    delete:
+      tags:
+        - oferta
+      summary: remove a oferta
+      operationId: destroyOferta
+      description: rota que remove os dados da oferta
+      parameters:
+        - name: id
+          in: path
+          description: id da oferta que será removida
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Oferta removida
+        '404':
+          description: Oferta não encontrada
+        '500':
+          description: Erro interno do servido
+  '/oferta/:id/user':
+    get:
+      tags:
+        - oferta
+      summary: retorna todas as ofertas do usuario
+      operationId: getIdOfertas
+      description: rota que retorna todas oferta com o id do usuario passado
+      parameters:
+        - name: id
+          in: path
+          description: id do usuario que será exibido as ofertas
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: operação realizada com sucesso
+          schema:
+            $ref: '#/definitions/Oferta'
+        '400':
+          description: requisição invalida
+        '404':
+          description: oferta não encontrada
+        '500':
+          description: Erro interno do servidor
+
+  /anuncio:
+    get:
+      tags:
+        - anuncio
+      summary: retorna todos os anuncios
+      operationId: indexAnuncios
+      description: rota na qual retorna dos os anuncios cadastrado no banco de dados
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: operação realizada com sucesso
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Anuncio'
+        '500':
+          description: Erro interno do servidor
+    post:
+      tags:
+        - anuncio
+      summary: realiza cadastro do anuncio
+      operationId: storeAnuncio
+      description: rota que criar um anuncio no banco de dados
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: json
+          description: são precisos os seguintes campos no arquivo JSON para criar o anuncio
+          schema:
+            $ref: '#/definitions/Anuncio'
+      responses:
+        '200':
+          description: Anuncio cadastrado
+        '500':
+          description: Erro interno do servidor
+  '/anuncio/:id':
+    get:
+      tags:
+        - anuncio
+      summary: retorna um anuncio
+      operationId: showAnuncio
+      description: rota que retorna um anuncio com o id passado
+      parameters:
+        - name: id
+          in: path
+          description: id do anuncio que será atualizado
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: operação realizada com sucesso
+          schema:
+            $ref: '#/definitions/Anuncio'
+        '400':
+          description: requisição invalida
+        '404':
+          description: Anuncio não encontrado
+        '500':
+          description: Erro interno do servidor
+    put:
+      tags:
+        - anuncio
+      summary: atualiza o anuncio
+      operationId: updateAnuncio
+      description: rota que atualiza os dados do anuncio
+      parameters:
+        - name: id
+          in: path
+          description: id do anuncio que será atualizado
+          required: true
+          type: integer
+        - in: body
+          name: json
+          description: quaisquer dos seguintes campos no arquivo JSON pode ser usado para ser atualizados
+          schema:
+            $ref: '#/definitions/Anuncio'
+      responses:
+        '200':
+          description: operação realizada com sucesso
+          schema:
+            $ref: '#/definitions/Anuncio'
+        '400':
+          description: requisição invalida
+        '401':
+          description: Não autorizado
+        '404':
+          description: Anuncio não encontrado
+        '500':
+          description: Erro interno do servidor
+    delete:
+      tags:
+        - anuncio
+      summary: remove o anuncio
+      operationId: destroyAnuncio
+      description: rota que remove os dados do anuncio
+      parameters:
+        - name: id
+          in: path
+          description: id do anuncio que será removido
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Anuncio removido
+        '404':
+          description: Anuncio não encontrado
+        '500':
+          description: Erro interno do servido
+
+  '/anuncio/:id/user':
+    get:
+      tags:
+        - anuncio
+      summary: retorna todas os anuncios
+      operationId: getIdAnuncios
+      description: rota que retorna todos anuncios com o id do usuario passado
+      parameters:
+        - name: id
+          in: path
+          description: id do usuario que será exibido os anuncios
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: operação realizada com sucesso
+          schema:
+            $ref: '#/definitions/Anuncio'
+        '400':
+          description: requisição invalida
+        '404':
+          description: Anuncio não encontrado
+        '500':
+          description: Erro interno do servidor
+
   /avaliacaoOfertas:
     post:
       tags:
@@ -196,7 +493,7 @@ paths:
                 type: string
                 description: Avaliação realizada!  esse deverá ser o conteúdo do campo "message" do JSON de resposta caso a avaliação tenha sido realizada
                 example: Avaliação realizada!
-                
+
         409:
           description: Conflict! Já existe uma avaliação para esse usuário em determinada oferta. Se quiser atualizar, use o método para atualizar em vez desse
           schema:
@@ -206,7 +503,7 @@ paths:
                 type: string
                 description: Avaliação já realizada! esse deverá ser o conteúdo do campo "message" do JSON de resposta caso a avaliação não tenha sido realizada
                 example: Avaliação já realizada!
-  
+
     get:
       tags:
         - avaliacaoOfertas
@@ -218,7 +515,7 @@ paths:
           description: OK! Retornou todas as avaliações em formato JSON
           schema:
             $ref: '#/definitions/AvaliacaoOferta'
-  '/avaliacaoOfertas/:user_id/:oferta_id':  
+  '/avaliacaoOfertas/:user_id/:oferta_id':
     get:
       tags:
         - avaliacaoOfertas
@@ -230,7 +527,7 @@ paths:
           description: OK! Retornou a avaliação em formato JSON. Caso não exista a avaliação, o retorno será um JSON vazio { [] } !
           schema:
             $ref: '#/definitions/AvaliacaoOferta'
-  '/avaliacaoOfertas/:oferta_id':  
+  '/avaliacaoOfertas/:oferta_id':
     get:
       tags:
         - avaliacaoOfertas
@@ -253,7 +550,7 @@ paths:
                 type: number
                 description:  4.0000000000000000 é um exemplo de retorno válido para o campo "avg", com média de avaliações igual a 4
                 example: "4.0000000000000000"
-    
+
     delete:
       tags:
         - avaliacaoOfertas
@@ -270,7 +567,7 @@ paths:
                 type: string
                 description: Caso a avaliação seja deletada, deve retornar "Avaliação de oferta removida"
                 example: "Avaliação de oferta removida"
-        
+
         404:
           description: NOT FOUND! Avaliação não encontrada
           schema:
@@ -280,9 +577,9 @@ paths:
                 type: string
                 description: Campo deve vir vazio caso avaliacaoOferta não seja encontrada
                 example: "{}"
-        
-  
-  '/avaliacaoOfertas/:id':       
+
+
+  '/avaliacaoOfertas/:id':
     put:
       tags:
         - avaliacaoOfertas
@@ -295,8 +592,8 @@ paths:
           description: id da avaliação
           required: true
           type: integer
-          
-        
+
+
         - name: json
           in: body
           description: é preciso enviar o seguinte campo no arquivo JSON para fazer a atualização de uma avaliação
@@ -307,18 +604,18 @@ paths:
               nota:
                 type: integer
                 example: 4
-        
+
       responses:
         '200':
           description: operação realizada com sucesso
           schema:
             $ref: '#/definitions/AvaliacaoOferta'
-            
-            
-            
-            
-            
-            
+
+
+
+
+
+
   /avaliacaoAnuncios:
     post:
       tags:
@@ -356,7 +653,7 @@ paths:
                 type: string
                 description: Avaliação realizada!  esse deverá ser o conteúdo do campo "message" do JSON de resposta caso a avaliação tenha sido realizada
                 example: Avaliação realizada!
-                
+
         409:
           description: Conflict! Já existe uma avaliação para esse usuário em determinado anúncio. Se quiser atualizar, use o método para atualizar em vez desse
           schema:
@@ -366,7 +663,7 @@ paths:
                 type: string
                 description: Avaliação já realizada! esse deverá ser o conteúdo do campo "message" do JSON de resposta caso a avaliação não tenha sido realizada
                 example: Avaliação já realizada!
-  
+
     get:
       tags:
         - avaliacaoAnuncios
@@ -378,7 +675,7 @@ paths:
           description: OK! Retornou todas as avaliações em formato JSON
           schema:
             $ref: '#/definitions/AvaliacaoAnuncio'
-  '/avaliacaoAnuncios/:user_id/:anuncio_id':  
+  '/avaliacaoAnuncios/:user_id/:anuncio_id':
     get:
       tags:
         - avaliacaoAnuncios
@@ -390,7 +687,7 @@ paths:
           description: OK! Retornou a avaliação em formato JSON. Caso não exista a avaliação, o retorno será um JSON vazio { [] } !
           schema:
             $ref: '#/definitions/AvaliacaoAnuncio'
-  '/avaliacaoAnuncios/:anuncio_id':  
+  '/avaliacaoAnuncios/:anuncio_id':
     get:
       tags:
         - avaliacaoAnuncios
@@ -413,7 +710,7 @@ paths:
                 type: number
                 description:  4.0000000000000000 é um exemplo de retorno válido para o campo "avg", com média de avaliações igual a 4
                 example: " 4.0000000000000000"
-    
+
     delete:
       tags:
         - avaliacaoAnuncios
@@ -430,7 +727,7 @@ paths:
                 type: string
                 description: Caso a avaliação seja deletada, deve retornar "Avaliação de anúncio removida"
                 example: "Avaliação de anúncio removida"
-        
+
         404:
           description: NOT FOUND! Avaliação não encontrada
           schema:
@@ -440,9 +737,9 @@ paths:
                 type: string
                 description: Campo deve vir vazio caso avaliacaoAnuncio não seja encontrada
                 example: "{}"
-        
-  
-  '/avaliacaoAnuncios/:id':       
+
+
+  '/avaliacaoAnuncios/:id':
     put:
       tags:
         - avaliacaoAnuncios
@@ -455,8 +752,8 @@ paths:
           description: id da avaliação
           required: true
           type: integer
-          
-        
+
+
         - name: json
           in: body
           description: é preciso enviar o seguinte campo no arquivo JSON para fazer a atualização de uma avaliação
@@ -467,14 +764,14 @@ paths:
               nota:
                 type: integer
                 example: 4
-        
+
       responses:
         '200':
           description: operação realizada com sucesso
           schema:
             $ref: '#/definitions/AvaliacaoAnuncio'
-  
-  
+
+
   /endereco:
     post:
       tags:
@@ -495,14 +792,14 @@ paths:
           properties:
             oferta_id:
               type: integer
-              description: id da oferta cujo endereço pertence 
+              description: id da oferta cujo endereço pertence
               example: 12
             latitude:
-              type: decimal
+              type: number
               description: latitude do endereço
               example: 41.40338
             longitude:
-              type: decimal
+              type: number
               description: longitude do endereço
               example: 2.17403
             tipoEndereco:
@@ -523,7 +820,7 @@ paths:
                 type: string
                 description: Endereço cadastrado!  esse deverá ser o conteúdo do campo "message" do JSON de resposta caso o endereço tenha sido cadastrado
                 example: Endereço cadastrado!
-                
+
         409:
           description: Conflict! Já existe um endereço para essa oferta. Se quiser atualizar, use o método para atualizar em vez desse
           schema:
@@ -533,7 +830,7 @@ paths:
                 type: string
                 description: Endereço já cadastrado! esse deverá ser o conteúdo do campo "message" do JSON de resposta caso o endereço já tenha sido cadastrado para determinada oferta
                 example: Endereço já cadastrado!
-  
+
     get:
       tags:
         - enderecoOferta
@@ -545,7 +842,7 @@ paths:
           description: OK! Retornou todos os endereços em formato JSON
           schema:
             $ref: '#/definitions/Endereco'
-  '/endereco/:oferta_id':  
+  '/endereco/:oferta_id':
     get:
       tags:
         - enderecoOferta
@@ -557,7 +854,7 @@ paths:
           description: OK! Retornou o endereço da oferta em formato JSON. Caso não exista o endereço, o retorno será um JSON vazio { [] } !
           schema:
             $ref: '#/definitions/Endereco'
-  '/endereco/:id':  
+  '/endereco/:id':
     get:
       tags:
         - enderecoOferta
@@ -569,7 +866,7 @@ paths:
           description: OK! Retornou a avaliação em formato JSON. Caso não exista a avaliação, o retorno será um JSON vazio { [] } !
           schema:
             $ref: '#/definitions/Endereco'
-    
+
     delete:
       tags:
         - enderecoOferta
@@ -586,7 +883,7 @@ paths:
                 type: string
                 description: Caso o endereço seja deletado, deve retornar "Endereço de oferta removido"
                 example: "Endereço de oferta removido"
-        
+
         404:
           description: NOT FOUND! Endereço não encontrado
           schema:
@@ -596,7 +893,7 @@ paths:
                 type: string
                 description: Campo deve vir vazio caso o endereço não seja encontrado
                 example: "{}"
-        
+
     put:
       tags:
         - enderecoOferta
@@ -609,8 +906,8 @@ paths:
           description: id do endereço
           required: true
           type: integer
-          
-        
+
+
         - name: json
           in: body
           description: é preciso enviar o seguinte campo no arquivo JSON para fazer a atualização de um endereço
@@ -634,13 +931,13 @@ paths:
                 type: string
                 description: descrição do endereço
                 example: "Rua Grujim, 356 - Rosa Elze, SE"
-        
+
       responses:
         '200':
           description: operação realizada com sucesso
           schema:
             $ref: '#/definitions/Endereco'
-    
+
 definitions:
   User:
     type: object
@@ -669,6 +966,9 @@ definitions:
         type: string
         description: sexo do usuario
         example: M
+      path:
+        type: string
+        description: caminho da imagem do usuario
     required:
       - username
       - name
@@ -676,7 +976,84 @@ definitions:
       - password
       - telephone
       - sex
-  
+
+  Oferta:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: id da oferta
+      user_id:
+        type: integer
+        description: id do usuario que está criando a oferta
+        example: 12
+      endereco_id:
+        type: integer
+        description: id do endereço da oferta criado
+        example: 10
+      titulo:
+        type: string
+        description: titulo da oferta
+        example: Apartamento proximo a UFS
+      telefone:
+        type: string
+        description: telefone de contato do ofertante
+        example: 79 996969696
+      descricao:
+        type: string
+        description: descrição da oferta
+        example: o apartamento vem com moveis basicos...
+      preco:
+        type: number
+        description: preço da oferta
+        example: 200,00
+      restricao:
+        type: array
+        items:
+          type: string
+          description: descrição da oferta
+          example: o apartamento vem com moveis basicos...
+    required:
+      - user_id
+      - endereco_id
+      - titulo
+      - telefone
+      - descricao
+      - preco
+
+  Anuncio:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: id do anuncio
+      user_id:
+        type: integer
+        description: id do usuario que está criando a oferta
+        example: 10
+      titulo:
+        type: string
+        description: titulo da oferta
+        example: Apartamento proximo a UFS
+      descricao:
+        type: string
+        description: descrição da oferta
+        example: o apartamento vem com moveis basicos...
+      preferencia:
+        type: string
+        description: preço da oferta
+        example: casa proximo ao restaurante
+      qtdCurtidas:
+        type: integer
+        description: quantidade de curtidas do anuncio
+        example: 100
+    required:
+      - user_id
+      - titulo
+      - descricao
+      - preferencia
+      - qtdCurtidas
+
   AvaliacaoOferta:
     type: object
     properties:
@@ -686,11 +1063,11 @@ definitions:
         example: 21
       oferta_id:
         type: integer
-        description: id da oferta cuja avaliação pertence 
+        description: id da oferta cuja avaliação pertence
         example: 12
       user_id:
         type: integer
-        description: id do usuário cuja avaliação pertence 
+        description: id do usuário cuja avaliação pertence
         example: 44
       nota:
         type: integer
@@ -709,7 +1086,7 @@ definitions:
       - oferta_id
       - user_id
       - nota
-      
+
   AvaliacaoAnuncio:
     type: object
     properties:
@@ -719,11 +1096,11 @@ definitions:
         example: 21
       anuncio_id:
         type: integer
-        description: id do anúncio cuja avaliação pertence 
+        description: id do anúncio cuja avaliação pertence
         example: 12
       user_id:
         type: integer
-        description: id do usuário cuja avaliação pertence 
+        description: id do usuário cuja avaliação pertence
         example: 44
       nota:
         type: integer
@@ -742,7 +1119,7 @@ definitions:
       - anuncio_id
       - user_id
       - nota
-      
+
   Endereco:
     type: object
     properties:
@@ -752,7 +1129,7 @@ definitions:
         example: 21
       oferta_id:
         type: integer
-        description: id da oferta cujo endereço pertence 
+        description: id da oferta cujo endereço pertence
         example: 12
       latitude:
         type: number
@@ -783,7 +1160,7 @@ definitions:
       - oferta_id
       - latitude
       - longitude
-      
+
 schemes:
  - https
  - http

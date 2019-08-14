@@ -7,7 +7,6 @@ Route.group (() => {
 })
 
 Route.group (() => {
-
   Route.get('/users/username/:username', 'UserController.show')
   Route.get('/users/id/:id', 'UserController.getById')
   Route.delete('/users/:username', 'UserController.destroy')
@@ -68,7 +67,6 @@ Route.group (() => {
   Route.delete('/endereco/:id', 'EnderecoController.destroy')
   Route.put('/endereco/:id', 'EnderecoController.update')
 })
-
 
   Route.get('/oferta/:id/images', 'ImageController.showImages')
   Route.post('oferta/:id/images', 'ImageController.store')
