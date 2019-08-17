@@ -48,15 +48,21 @@ class OfertaController {
 
   async getFilter ({ request, response, auth}) {
     try {
-      const termoPesquisa = request.post()
-      const termoValidos = Object.keys(termoPesquisa).filter(element => {
-        if (termoPesquisa[element] !== null){
-          return element
-        }
-      })
-      console.log("elemento", termoValidos)
-
-      return response.status(200).send(termoPesquisa);
+      const filtros = request.post()
+      if(Object.keys(filtros)[0] == 'restricao'){
+        const ofertas = await Oferta.query()
+         .where('restricao', 'LIKE', '%'+Object.values(filtros)[0]+'%')
+         .with('image')
+         .fetch()
+        return response.status(200).send(ofertas);
+      } else {
+        const ofertas = await Oferta.query()
+         .where('preco', '>=', filtros.preco.min)
+         .where('preco', '<=', filtros.preco.max)
+         .with('image')
+         .fetch()
+         return response.status(200).send(ofertas);
+      }
     } catch (error) {
       return response.status(error.status).send({message: error})
     }

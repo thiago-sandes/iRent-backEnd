@@ -22,7 +22,7 @@ Route.get('/app', 'AppController.index').middleware(['auth'])
 Route.group (() => {
   Route.get('/oferta', 'OfertaController.index')
   Route.post('/oferta', 'OfertaController.store')
-  Route.get('/oferta/filtro', 'OfertaController.getFilter')
+  Route.post('/oferta/filtro', 'OfertaController.getFilter')
 })//.middleware('auth')
 
 Route.group (() => {
