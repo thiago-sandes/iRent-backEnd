@@ -63,7 +63,7 @@ Route.group (() => {
 
 Route.group (() => {
   Route.get('/endereco/:id', 'EnderecoController.show')
-  Route.get('/endereco/:oferta_id', 'EnderecoController.getEnderecoOferta')
+  Route.get('/endereco/oferta/:oferta_id', 'EnderecoController.getEnderecoOferta')
   Route.delete('/endereco/:id', 'EnderecoController.destroy')
   Route.put('/endereco/:id', 'EnderecoController.update')
 })
