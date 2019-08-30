@@ -93,6 +93,7 @@ Route.group (() => {
   Route.get('/interesse/:id', 'NotificacaoController.show')
   Route.delete('/interesse/:id', 'NotificacaoController.destroy')
   Route.get('/interesse/:idUser/user', 'NotificacaoController.getInteresse')
+  Route.get('/interesse/:idUser/user/:idOferta/oferta', 'NotificacaoController.getInteresseOferta')
 })//.middleware('auth')
 
   Route.get('/images/:path', 'ImageController.show')

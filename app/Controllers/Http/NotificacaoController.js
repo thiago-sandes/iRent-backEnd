@@ -87,7 +87,7 @@ class NotificacaoController {
 
    async getInteresse ({ params, request, response, view }) {
     try {
-      const notificacao = await Database.select('ofertas.titulo', 'ofertas.descricao', 'users.name', 'users.email', 'users.telephone')
+      const notificacao = await Database.select('ofertas.id', 'ofertas.titulo', 'ofertas.descricao', 'users.name', 'users.email', 'users.telephone')
         .from('ofertas')
         .join('notificacaos', function() {
           this.on('ofertas.id', '=' ,'notificacaos.oferta_id')
@@ -100,6 +100,27 @@ class NotificacaoController {
       return response.status(200).send(notificacao);
 
     } catch (error) {
+      return response.status(error.status).send({message: error})
+    }
+  }
+
+  async getInteresseOferta ({ params, request, response, view }) {
+    try {
+      const notificacao = await Database.select('ofertas.titulo', 'ofertas.descricao', 'users.name', 'users.email', 'users.telephone')
+        .from('ofertas')
+        .join('notificacaos', function() {
+          this.on('ofertas.id', '=' ,'notificacaos.oferta_id')
+        })
+        .join('users', function() {
+          this.on('notificacaos.user_id', '=' ,'users.id')
+        })
+        .where('ofertas.user_id', params.idUser)
+        .where('ofertas.id', params.idOferta)
+
+      return response.status(200).send(notificacao);
+
+    } catch (error) {
+      console.log(error)
       return response.status(error.status).send({message: error})
     }
   }
