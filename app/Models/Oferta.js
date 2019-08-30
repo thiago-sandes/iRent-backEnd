@@ -29,6 +29,10 @@ class Oferta extends Model {
     return this.hasMany('App/Models/Image')
   }
 
+  notificacao () {
+    return this.hasMany('App/Models/Notificacao')
+  }
+
 }
 
 module.exports = Oferta

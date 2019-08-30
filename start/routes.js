@@ -84,4 +84,15 @@ Route.group (() => {
   Route.get('/anuncio/:id/user/', 'AnuncioController.getIdAnuncios')
 })//.middleware('auth')
 
+ Route.group (() => {
+  Route.get('/interesse', 'NotificacaoController.index')
+  Route.post('/interesse', 'NotificacaoController.store')
+})//.middleware('auth')
+
+Route.group (() => {
+  Route.get('/interesse/:id', 'NotificacaoController.show')
+  Route.delete('/interesse/:id', 'NotificacaoController.destroy')
+  Route.get('/interesse/:idUser/user', 'NotificacaoController.getInteresse')
+})//.middleware('auth')
+
   Route.get('/images/:path', 'ImageController.show')

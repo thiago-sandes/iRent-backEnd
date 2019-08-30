@@ -68,6 +68,10 @@ class User extends Model {
   image () {
     return this.belongsTo('App/Models/Image')
   }
+
+  notificacao () {
+    return this.hasMany('App/Models/Notificacao')
+  }
 }
 
 module.exports = User
