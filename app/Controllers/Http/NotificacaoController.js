@@ -139,7 +139,7 @@ class NotificacaoController {
 
       await notificacao.delete();
 
-      return response.status(200).send({message: "Notificacao removido"});
+      return response.status(200).send({message: "Interesse removido"});
     } catch (error) {
       return response.status(error.status).send({message: error})
     }

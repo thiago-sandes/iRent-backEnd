@@ -367,7 +367,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: id do anuncio que será atualizado
+          description: id do anuncio que será retornado
           required: true
           type: integer
       responses:
@@ -578,7 +578,6 @@ paths:
                 description: Campo deve vir vazio caso avaliacaoOferta não seja encontrada
                 example: "{}"
 
-
   '/avaliacaoOfertas/:id':
     put:
       tags:
@@ -610,11 +609,6 @@ paths:
           description: operação realizada com sucesso
           schema:
             $ref: '#/definitions/AvaliacaoOferta'
-
-
-
-
-
 
   /avaliacaoAnuncios:
     post:
@@ -738,7 +732,6 @@ paths:
                 description: Campo deve vir vazio caso avaliacaoAnuncio não seja encontrada
                 example: "{}"
 
-
   '/avaliacaoAnuncios/:id':
     put:
       tags:
@@ -752,8 +745,6 @@ paths:
           description: id da avaliação
           required: true
           type: integer
-
-
         - name: json
           in: body
           description: é preciso enviar o seguinte campo no arquivo JSON para fazer a atualização de uma avaliação
@@ -770,7 +761,6 @@ paths:
           description: operação realizada com sucesso
           schema:
             $ref: '#/definitions/AvaliacaoAnuncio'
-
 
   /endereco:
     post:
@@ -937,6 +927,145 @@ paths:
           description: operação realizada com sucesso
           schema:
             $ref: '#/definitions/Endereco'
+  
+  /interesse:
+    get:
+      tags:
+        - interesse
+      summary: retorna todos os interesse
+      operationId: indexInteresse
+      description: rota na qual retorna dos os interesse cadastrado no banco de dados
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: operação realizada com sucesso
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Notificacao'
+        '500':
+          description: Erro interno do servidor
+    post:
+      tags:
+        - interesse
+      summary: realiza cadastro da notificacao
+      operationId: storeInteresse
+      description: rota que criar um interesse no banco de dados
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: json
+          description: são precisos os seguintes campos no arquivo JSON para criar o interesse
+          schema:
+            $ref: '#/definitions/Notificacao'
+      responses:
+        '201':
+          description: Interesse Realizado
+        '403':
+          description: Interesse Já Cadastrado
+        '500':
+          description: Erro interno do servidor
+  '/interesse/:id':
+    get:
+      tags:
+        - interesse
+      summary: retorna um interesse
+      operationId: showInteresse
+      description: rota que retorna um interesse com o id passado
+      parameters:
+        - name: id
+          in: path
+          description: id do interesse que será retornado
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: operação realizada com sucesso
+          schema:
+            $ref: '#/definitions/Notificacao'
+        '400':
+          description: requisição invalida
+        '404':
+          description: Interesse não encontrado
+        '500':
+          description: Erro interno do servidor
+          
+    delete:
+      tags:
+        - interesse
+      summary: remove o interesse
+      operationId: destroyAInteresse
+      description: rota que remove os dados do interesse
+      parameters:
+        - name: id
+          in: path
+          description: id do interesse que será removido
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Interesse removido
+        '404':
+          description: Interesse não encontrado
+        '500':
+          description: Erro interno do servido
+
+  '/interesse/:idUser/user':
+    get:
+      tags:
+        - interesse
+      summary: retorna todas os interesse do usuario
+      operationId: getInteresse
+      description: rota que retorna todos anuncios com o id do usuario passado
+      parameters:
+        - name: idUser
+          in: path
+          description: id do usuario que será exibido os anuncios
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: operação realizada com sucesso
+          schema:
+            $ref: '#/definitions/User'
+        '400':
+          description: requisição invalida
+        '404':
+          description: Interesse não encontrado
+        '500':
+          description: Erro interno do servidor
+  
+  '/interesse/:idUser/user/:idOferta/oferta':
+    get:
+      tags:
+        - interesse
+      summary: retorna todas os interesse do usuario e da oferta
+      operationId: getInteresseOferta
+      description: rota que retorna todos os interesses da oferta passada do usuario passado
+      parameters:
+        - name: idUser
+          in: path
+          description: id do usuario que será exibido os interesse
+          required: true
+          type: integer
+        - name: idOferta
+          in: path
+          description: id da oferta que será exibido os anuncios
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: operação realizada com sucesso
+          schema:
+            $ref: '#/definitions/User'
+        '400':
+          description: requisição invalida
+        '404':
+          description: Interesse não encontrado
+        '500':
+          description: Erro interno do servidor
 
 definitions:
   User:
@@ -1160,6 +1289,22 @@ definitions:
       - oferta_id
       - latitude
       - longitude
+  
+  Notificacao:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: id da notificacao
+        example: 1
+      user_id:
+        type: integer
+        description: id do usuario que está interessado na oferta
+        example: 10
+      oferta_id:
+        type: integer
+        description: id da oferta que teve um oferta
+        example: 4
 
 schemes:
  - https
